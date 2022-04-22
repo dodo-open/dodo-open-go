@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/go-resty/resty/v2 v2.7.0
+	github.com/gorilla/websocket v1.5.0
 	github.com/json-iterator/go v1.1.12
 )
 
