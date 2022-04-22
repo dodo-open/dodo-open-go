@@ -4,8 +4,8 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-// OpenApiRpcRsp wrapped OpenAPI RPC response
-type OpenApiRpcRsp struct {
+// OpenAPIRsp wrapped OpenAPI RPC response
+type OpenAPIRsp struct {
 	Status  int                 `json:"status"`
 	Message string              `json:"message"`
 	Data    jsoniter.RawMessage `json:"data"`

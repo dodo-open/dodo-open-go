@@ -15,7 +15,7 @@ type IslandElement struct {
 
 // GetIslandInfoReq 取群信息 request
 type GetIslandInfoReq struct {
-	IslandId string `json:"islandId"` // 群号
+	IslandId string `json:"islandId" binding:"required"` // 群号
 }
 
 // GetIslandInfoRsp 取群信息 response

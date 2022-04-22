@@ -10,5 +10,5 @@ type GetBotInfoRsp struct {
 
 // SetBotLeaveIslandReq 置机器人群退出 request
 type SetBotLeaveIslandReq struct {
-	IslandId string `json:"islandId"` // 群号
+	IslandId string `json:"islandId" binding:"required"` // 群号
 }

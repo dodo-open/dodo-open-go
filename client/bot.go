@@ -15,7 +15,7 @@ func (c *client) GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error) {
 	}
 
 	result := &model.GetBotInfoRsp{}
-	if err = tools.JSON.Unmarshal(resp.Result().(*model.OpenApiRpcRsp).Data, &result); err != nil {
+	if err = tools.JSON.Unmarshal(resp.Result().(*model.OpenAPIRsp).Data, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -30,7 +30,7 @@ func (c *client) SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIs
 		return false, err
 	}
 
-	result := resp.Result().(*model.OpenApiRpcRsp)
+	result := resp.Result().(*model.OpenAPIRsp)
 	if result.Status != 0 {
 		return false, errs.New(result.Status, result.Message)
 	}

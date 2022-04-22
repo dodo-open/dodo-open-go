@@ -2,6 +2,10 @@ package network
 
 import "net/http"
 
+const (
+	OpenAPIStatusOK = 0
+)
+
 var successStatuses = map[int]bool{
 	http.StatusOK:        true,
 	http.StatusNoContent: true,

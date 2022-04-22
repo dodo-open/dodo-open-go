@@ -28,6 +28,9 @@ func (c *client) setupResty() {
 				if !network.IsSuccessResponse(resp.StatusCode()) {
 					return errs.New(resp.StatusCode(), string(resp.Body()))
 				}
+				if resp.Result().(*model.OpenAPIRsp).Status != network.OpenAPIStatusOK {
+					return errs.New(resp.Result().(*model.OpenAPIRsp).Status, resp.Result().(*model.OpenAPIRsp).Message)
+				}
 				return nil
 			},
 		)
@@ -41,8 +44,8 @@ func (c *client) request(ctx context.Context) *resty.Request {
 		SetContext(ctx).
 		// DoDo OpenAPI only support `application/json` currently
 		SetHeader("Content-Type", "application/json").
-		// DoDo OpenAPI wrapped response into model.OpenApiRpcRsp
-		SetResult(model.OpenApiRpcRsp{})
+		// DoDo OpenAPI wrapped response into model.OpenAPIRsp
+		SetResult(model.OpenAPIRsp{})
 }
 
 // createTransport customize transport

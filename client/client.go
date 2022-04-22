@@ -16,6 +16,9 @@ type (
 		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error)
 		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)
 		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)
+		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)
+		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error)
+		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
 	}
 
 	// client DoDoBot Instance
