@@ -7,7 +7,7 @@ var successStatuses = map[int]bool{
 	http.StatusNoContent: true,
 }
 
-// IsSuccessResponse 判断响应的状态码是否为成功的状态码
+// IsSuccessResponse check the HTTP response code, if it is a success status code, returns true
 func IsSuccessResponse(code int) bool {
 	if _, ok := successStatuses[code]; ok {
 		return true

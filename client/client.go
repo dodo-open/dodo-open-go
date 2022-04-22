@@ -1,6 +1,8 @@
 package client
 
 import (
+	"context"
+	"dodo-open-go/model"
 	"errors"
 	"github.com/go-resty/resty/v2"
 	"time"
@@ -10,6 +12,10 @@ type (
 	// Client DoDoBot API Interface
 	Client interface {
 		GetConfig() *Config
+		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)
+		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error)
+		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)
+		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)
 	}
 
 	// client DoDoBot Instance
@@ -57,4 +63,9 @@ func getDefaultConfig() *Config {
 		IsDebug: false,
 		Timeout: time.Second * 5,
 	}
+}
+
+// GetConfig get instance configuration
+func (c *client) GetConfig() *Config {
+	return c.conf
 }

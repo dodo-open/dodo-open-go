@@ -3,8 +3,11 @@ package client
 import (
 	"context"
 	"dodo-open-go/errs"
+	"dodo-open-go/model"
 	"dodo-open-go/network"
+	"dodo-open-go/tools"
 	"dodo-open-go/version"
+	"fmt"
 	"github.com/go-resty/resty/v2"
 	"net"
 	"net/http"
@@ -17,7 +20,7 @@ func (c *client) setupResty() {
 		SetTransport(createTransport(nil, 500)).
 		SetDebug(c.conf.IsDebug).
 		SetTimeout(c.conf.Timeout).
-		SetAuthToken(c.conf.Token).
+		SetAuthToken(fmt.Sprintf("%s.%s", c.conf.ClientId, c.conf.Token)).
 		SetAuthScheme("Bot").
 		SetHeader("User-Agent", version.Version()).
 		OnAfterResponse(
@@ -28,11 +31,18 @@ func (c *client) setupResty() {
 				return nil
 			},
 		)
+	c.r.JSONMarshal = tools.JSON.Marshal
+	c.r.JSONUnmarshal = tools.JSON.Unmarshal
 }
 
 // request you should create a request object before doing each HTTP request
 func (c *client) request(ctx context.Context) *resty.Request {
-	return c.r.R().SetContext(ctx)
+	return c.r.R().
+		SetContext(ctx).
+		// DoDo OpenAPI only support `application/json` currently
+		SetHeader("Content-Type", "application/json").
+		// DoDo OpenAPI wrapped response into model.OpenApiRpcRsp
+		SetResult(model.OpenApiRpcRsp{})
 }
 
 // createTransport customize transport
