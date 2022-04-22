@@ -15,6 +15,8 @@ type (
 		IslandAPI
 		ChannelAPI
 		MessageAPI
+		RoleAPI
+		MemberAPI
 	}
 
 	// Base client basic interface
@@ -41,6 +43,22 @@ type (
 		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
 		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error)
 		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)
+	}
+
+	// RoleAPI role API interface
+	RoleAPI interface {
+		GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]*model.RoleElement, error)
+		AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)
+		RemoveRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)
+	}
+
+	// MemberAPI member API interface
+	MemberAPI interface {
+		GetMemberList(ctx context.Context, req *model.GetMemberListReq) (*model.GetMemberListRsp, error)
+		GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error)
+		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)
+		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)
+		SetMemberSilence(ctx context.Context, req *model.SetMemberSilenceReq) (bool, error)
 	}
 )
 
