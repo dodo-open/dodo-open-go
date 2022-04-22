@@ -17,6 +17,11 @@ type WSEventData struct {
 	Timestamp uint64    `json:"timestamp"` // 发送时间戳
 }
 
+// WSBeatData 心跳类型数据
+type WSBeatData struct {
+	Type TypeCode `json:"type"`
+}
+
 // EventBody 事件内容
 type EventBody interface {
 	EventType() EventType

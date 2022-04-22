@@ -4,5 +4,6 @@ package websocket
 type TypeCode int
 
 const (
-	BizType TypeCode = 0 // 业务数据
+	BizType       TypeCode = 0 // 业务数据
+	HeartbeatType TypeCode = 1 // 心跳
 )
