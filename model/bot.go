@@ -1,5 +1,7 @@
 package model
 
+import "errors"
+
 // GetBotInfoRsp 取机器人信息 response
 type GetBotInfoRsp struct {
 	ClientId  string `json:"clientId"`  // 机器人唯一标识
@@ -11,4 +13,11 @@ type GetBotInfoRsp struct {
 // SetBotLeaveIslandReq 置机器人群退出 request
 type SetBotLeaveIslandReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
+}
+
+func (p *SetBotLeaveIslandReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	return nil
 }

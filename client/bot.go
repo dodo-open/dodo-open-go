@@ -15,7 +15,7 @@ func (c *client) GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error) {
 	}
 
 	result := &model.GetBotInfoRsp{}
-	if err = tools.JSON.Unmarshal(resp.Result().(*model.OpenAPIRsp).Data, &result); err != nil {
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -23,14 +23,16 @@ func (c *client) GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error) {
 
 // SetBotIslandLeave 置机器人群退出
 func (c *client) SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error) {
-	resp, err := c.request(ctx).
-		SetBody(req).
-		Post(c.getApi(setBotIslandLeaveUri))
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(setBotIslandLeaveUri))
 	if err != nil {
 		return false, err
 	}
 
-	result := resp.Result().(*model.OpenAPIRsp)
+	result := c.unmarshalResult(resp)
 	if result.Status != 0 {
 		return false, errs.New(result.Status, result.Message)
 	}

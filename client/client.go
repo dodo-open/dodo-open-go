@@ -11,16 +11,40 @@ import (
 type (
 	// Client DoDoBot API Interface
 	Client interface {
+		Base
+		IslandAPI
+		ChannelAPI
+		MessageAPI
+	}
+
+	// Base client basic interface
+	Base interface {
 		GetConfig() *Config
 		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)
 		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error)
-		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)
-		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)
-		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)
-		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error)
-		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
 	}
 
+	// IslandAPI island API interface
+	IslandAPI interface {
+		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)
+		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)
+	}
+
+	// ChannelAPI channel basic API interface
+	ChannelAPI interface {
+		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)
+		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error)
+	}
+
+	// MessageAPI message API interface
+	MessageAPI interface {
+		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
+		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error)
+		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)
+	}
+)
+
+type (
 	// client DoDoBot Instance
 	client struct {
 		conf *Config

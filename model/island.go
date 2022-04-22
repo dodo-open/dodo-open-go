@@ -1,5 +1,7 @@
 package model
 
+import "errors"
+
 // GetIslandListReq 取群列表 request
 type GetIslandListReq struct {
 }
@@ -16,6 +18,13 @@ type IslandElement struct {
 // GetIslandInfoReq 取群信息 request
 type GetIslandInfoReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
+}
+
+func (p *GetIslandInfoReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	return nil
 }
 
 // GetIslandInfoRsp 取群信息 response

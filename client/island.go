@@ -15,7 +15,7 @@ func (c *client) GetIslandList(ctx context.Context) ([]*model.IslandElement, err
 		return list, err
 	}
 
-	if err = tools.JSON.Unmarshal(resp.Result().(*model.OpenAPIRsp).Data, &list); err != nil {
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &list); err != nil {
 		return list, err
 	}
 	return list, nil
@@ -23,13 +23,17 @@ func (c *client) GetIslandList(ctx context.Context) ([]*model.IslandElement, err
 
 // GetIslandInfo 取群信息
 func (c *client) GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+
 	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(getIslandInfoUri))
 	if err != nil {
 		return nil, err
 	}
 
 	result := &model.GetIslandInfoRsp{}
-	if err = tools.JSON.Unmarshal(resp.Result().(*model.OpenAPIRsp).Data, &result); err != nil {
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
 		return nil, err
 	}
 	return result, nil

@@ -28,8 +28,9 @@ func (c *client) setupResty() {
 				if !network.IsSuccessResponse(resp.StatusCode()) {
 					return errs.New(resp.StatusCode(), string(resp.Body()))
 				}
-				if resp.Result().(*model.OpenAPIRsp).Status != network.OpenAPIStatusOK {
-					return errs.New(resp.Result().(*model.OpenAPIRsp).Status, resp.Result().(*model.OpenAPIRsp).Message)
+				rsp := c.unmarshalResult(resp)
+				if rsp.Status != network.OpenAPIStatusOK {
+					return errs.New(rsp.Status, rsp.Message)
 				}
 				return nil
 			},
@@ -46,6 +47,11 @@ func (c *client) request(ctx context.Context) *resty.Request {
 		SetHeader("Content-Type", "application/json").
 		// DoDo OpenAPI wrapped response into model.OpenAPIRsp
 		SetResult(model.OpenAPIRsp{})
+}
+
+// unmarshalResult get model.OpenAPIRsp result from the response
+func (c *client) unmarshalResult(resp *resty.Response) *model.OpenAPIRsp {
+	return resp.Result().(*model.OpenAPIRsp)
 }
 
 // createTransport customize transport

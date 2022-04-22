@@ -10,3 +10,8 @@ type OpenAPIRsp struct {
 	Message string              `json:"message"`
 	Data    jsoniter.RawMessage `json:"data"`
 }
+
+// Validator request payload validator
+type Validator interface {
+	ValidParams() error
+}

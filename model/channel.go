@@ -1,5 +1,7 @@
 package model
 
+import "errors"
+
 // ChannelElement 取频道列表 list element
 type ChannelElement struct {
 	ChannelId   string `json:"channelId"`   // 频道号
@@ -13,6 +15,13 @@ type ChannelElement struct {
 // GetChannelListReq 取频道列表 request
 type GetChannelListReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
+}
+
+func (p *GetChannelListReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	return nil
 }
 
 type (
@@ -29,20 +38,39 @@ type (
 	}
 )
 
+func (p *GetChannelInfoReq) ValidParams() error {
+	if p.ChannelId == "" {
+		return errors.New("invalid parameter ChannelId (empty detected)")
+	}
+	return nil
+}
+
 type (
 	// SendChannelMessageReq 发送频道消息 request
 	SendChannelMessageReq struct {
-		ChannelId           string       `json:"channelId"  binding:"required"`   // 频道号
-		MessageType         int          `json:"messageType"  binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
-		MessageBody         IMessageBody `json:"messageBody"  binding:"required"` // 消息内容
-		ReferencedMessageId string       `json:"referencedMessageId,omitempty"`   // 回复消息ID
+		ChannelId           string       `json:"channelId" binding:"required"`   // 频道号
+		MessageType         int          `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
+		MessageBody         IMessageBody `json:"messageBody" binding:"required"` // 消息内容
+		ReferencedMessageId string       `json:"referencedMessageId,omitempty"`  // 回复消息ID
 	}
 
 	// SendChannelMessageRsp 发送频道消息 response
 	SendChannelMessageRsp struct {
 		MessageId string `json:"messageId"` // 消息 ID
 	}
+)
 
+func (p *SendChannelMessageReq) ValidParams() error {
+	if p.ChannelId == "" {
+		return errors.New("invalid parameter ChannelId (empty detected)")
+	}
+	if p.MessageBody == nil {
+		return errors.New("invalid parameter MessageBody (nil detected)")
+	}
+	return nil
+}
+
+type (
 	// IMessageBody 消息内容
 	IMessageBody interface {
 		MessageType() int // 获取消息类型
@@ -91,4 +119,41 @@ func (m *ChannelVideoMessage) MessageType() int {
 
 func (m *ChannelFileMessage) MessageType() int {
 	return 5
+}
+
+type (
+	// EditChannelMessageReq 编辑频道消息 request
+	EditChannelMessageReq struct {
+		MessageId   string       `json:"messageId" binding:"required"`   // 欲编辑的消息 ID
+		MessageType int          `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
+		MessageBody IMessageBody `json:"messageBody" binding:"required"` // 消息内容
+	}
+
+	// EditChannelMessageRsp 发送频道消息 response
+	EditChannelMessageRsp struct {
+		MessageId string `json:"messageId"` // 消息 ID
+	}
+)
+
+func (p *EditChannelMessageReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	if p.MessageBody == nil {
+		return errors.New("invalid parameter MessageBody (nil detected)")
+	}
+	return nil
+}
+
+// WithdrawChannelMessageReq 撤回频道消息 request
+type WithdrawChannelMessageReq struct {
+	MessageId string `json:"messageId" binding:"required"` // 消息ID
+	Reason    string `json:"reason,omitempty"`             // 撤回原因
+}
+
+func (p *WithdrawChannelMessageReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	return nil
 }
