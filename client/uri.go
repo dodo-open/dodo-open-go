@@ -27,6 +27,12 @@ const (
 	getMemberRoleListUri uri = "/api/v1/member/role/list" // 取成员身份组列表
 	setMemberNickUri     uri = "/api/v1/member/nick/set"  // 设置成员昵称
 	setMemberSilenceUri  uri = "/api/v1/member/ban/set"   // 设置成员禁言
+
+	sendDirectMessageUri uri = "/api/v1/personal/message/send" // 发送私聊消息
+
+	uploadImageUri uri = "/api/v1/resource/picture/upload" // 上传图片资源
+
+	getWebsocketConnectionUri uri = "/api/v1/websocket/connection" // 获取 Websocket 连接
 )
 
 // getApi build the full api url

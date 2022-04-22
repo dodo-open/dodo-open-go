@@ -17,6 +17,9 @@ type (
 		MessageAPI
 		RoleAPI
 		MemberAPI
+		DirectMessageAPI
+		ResourceUploadAPI
+		WebsocketAPI
 	}
 
 	// Base client basic interface
@@ -59,6 +62,22 @@ type (
 		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)
 		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)
 		SetMemberSilence(ctx context.Context, req *model.SetMemberSilenceReq) (bool, error)
+	}
+
+	// DirectMessageAPI direct message (a.k.a. DM) API interface
+	DirectMessageAPI interface {
+		SendDirectMessage(ctx context.Context, req *model.SendDirectMessageReq) (*model.SendDirectMessageRsp, error)
+	}
+
+	// ResourceUploadAPI resource upload API interface
+	ResourceUploadAPI interface {
+		UploadImageByBytes(ctx context.Context, req *model.UploadImageByBytesReq) (*model.UploadImageRsp, error)
+		UploadImageByPath(ctx context.Context, req *model.UploadImageByPathReq) (*model.UploadImageRsp, error)
+	}
+
+	// WebsocketAPI websocket API interface
+	WebsocketAPI interface {
+		GetWebsocketConnection(ctx context.Context) (*model.GetWebsocketConnectionRsp, error)
 	}
 )
 
