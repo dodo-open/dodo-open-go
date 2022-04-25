@@ -48,6 +48,7 @@ type (
 func New(rc restClient.Client, options ...OptionHandler) (Client, error) {
 	conf := &config{
 		messageQueueSize: 10000,
+		messageHandlers:  DefaultHandlers,
 	}
 
 	for _, optionHandler := range options {

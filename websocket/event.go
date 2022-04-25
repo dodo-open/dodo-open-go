@@ -43,7 +43,7 @@ func (c *client) ParseDataAndHandle(event *WSEventMessage) error {
 
 // ParseData parse message data
 func ParseData(message []byte, v interface{}) error {
-	data := tools.JSON.Get(message, "data", "eventBody")
+	data := tools.JSON.Get(message, "eventBody")
 	return tools.JSON.Unmarshal([]byte(data.ToString()), v)
 }
 
