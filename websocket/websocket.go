@@ -167,7 +167,6 @@ func (c *client) readMessage() {
 			log.Errorf("json unmarshal failed cause: %v", err)
 			continue
 		}
-		event.RawData = message
 		c.messageChan <- event
 	}
 }

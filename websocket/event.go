@@ -32,11 +32,11 @@ func (c *client) ParseDataAndHandle(event *WSEventMessage) error {
 	}
 	// match event message parser by EventType
 	if handle, ok := eventParserMap[data.EventType]; ok {
-		return handle(c, event, event.RawData)
+		return handle(c, event, event.Data)
 	}
 	// else treat the message as plain text message
 	if DefaultHandlers.PlainTextHandler != nil {
-		return DefaultHandlers.PlainTextHandler(event, event.RawData)
+		return DefaultHandlers.PlainTextHandler(event, event.Data)
 	}
 	return nil
 }

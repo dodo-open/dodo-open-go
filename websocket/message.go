@@ -14,9 +14,8 @@ const (
 
 // WSEventMessage 事件主体内容
 type WSEventMessage struct {
-	Type    TypeCode            `json:"type"`           // 数据类型
-	Data    jsoniter.RawMessage `json:"data,omitempty"` // 数据内容
-	RawData []byte              `json:"-"`              // 原始数据
+	Type TypeCode            `json:"type"`           // 数据类型
+	Data jsoniter.RawMessage `json:"data,omitempty"` // 数据内容
 }
 
 // EventData 事件业务数据
