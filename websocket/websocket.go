@@ -1,12 +1,13 @@
 package websocket
 
 import (
+	"context"
+	restClient "dodo-open-go/client"
 	"dodo-open-go/log"
 	"dodo-open-go/tools"
 	"errors"
 	"fmt"
 	"github.com/gorilla/websocket"
-	_ "github.com/gorilla/websocket"
 	"time"
 )
 
@@ -20,7 +21,7 @@ type Client interface {
 }
 
 // New a WebSocket instance
-func New(url string, options ...OptionHandler) (Client, error) {
+func New(rc restClient.Client, options ...OptionHandler) (Client, error) {
 	conf := &config{
 		messageQueueSize: 10000,
 	}
@@ -35,11 +36,9 @@ func New(url string, options ...OptionHandler) (Client, error) {
 	}
 
 	c := &client{
-		Url:             url,
-		messageChan:     make(messageChan, conf.messageQueueSize),
-		closeChan:       make(errorChan, 16),
-		heartbeatTicker: time.NewTicker(time.Second * 25),
-		isConnected:     false,
+		c:           rc,
+		conf:        conf,
+		isConnected: false,
 	}
 
 	return c, nil
@@ -54,7 +53,8 @@ type (
 
 	// client WebSocket client implement
 	client struct {
-		Url             string          // WebSocket connect url
+		c               restClient.Client
+		conf            *config
 		conn            *websocket.Conn // WebSocket connection
 		messageChan     messageChan     // message channel
 		closeChan       errorChan       // errors channel
@@ -67,17 +67,31 @@ type (
 	}
 )
 
+// Connect to the WebSocket server
 func (c *client) Connect() error {
-	if c.Url == "" {
-		return errors.New("WebSocket URL invalid")
+	if c.c == nil {
+		return errors.New("missing DoDoBot API Client")
 	}
 
-	var err error
-	c.conn, _, err = websocket.DefaultDialer.Dial(c.Url, nil)
+	url, err := c.c.GetWebsocketConnection(context.Background())
+	if err != nil {
+		return err
+	}
+
+	// malloc for message channel and error channel
+	c.messageChan = make(messageChan, c.conf.messageQueueSize)
+	c.closeChan = make(errorChan, 16)
+
+	// dial to WebSocket server
+	c.conn, _, err = websocket.DefaultDialer.Dial(url.Endpoint, nil)
 	if err != nil {
 		log.Errorf("connect error: %v", err)
 		return err
 	}
+
+	// start heartbeat ticker and update connection status
+	c.heartbeatTicker = time.NewTicker(time.Second * 25)
+	c.isConnected = true
 
 	return nil
 }
@@ -98,7 +112,9 @@ func (c *client) Listen() error {
 			if DefaultHandlers.ErrorHandler != nil {
 				DefaultHandlers.ErrorHandler(err)
 			}
-			return err
+			if err := c.Reconnect(); err != nil {
+				return err
+			}
 		case <-c.heartbeatTicker.C:
 			packet := &WSEventMessage{Type: HeartbeatType}
 			_ = c.Write(packet)
@@ -119,8 +135,10 @@ func (c *client) Write(event *WSEventMessage) error {
 
 // Reconnect to the WebSocket server
 func (c *client) Reconnect() error {
-	// TODO
-	return nil
+	c.Close()
+	c.messageChan = make(messageChan, c.conf.messageQueueSize)
+	c.closeChan = make(errorChan, 16)
+	return c.Connect()
 }
 
 // Close connection and stop heartbeat ticker
@@ -131,6 +149,7 @@ func (c *client) Close() {
 	c.heartbeatTicker.Stop()
 	close(c.messageChan)
 	close(c.closeChan)
+	c.isConnected = false
 }
 
 // readMessage read message from connection
