@@ -14,3 +14,11 @@ func WithMessageQueueSize(size int) OptionHandler {
 		return nil
 	}
 }
+
+// WithMessageHandlers Customize message handlers
+func WithMessageHandlers(handlers *MessageHandlers) OptionHandler {
+	return func(c *config) error {
+		c.messageHandlers = fillHandler(handlers)
+		return nil
+	}
+}

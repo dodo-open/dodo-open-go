@@ -25,14 +25,14 @@ var eventParserMap = map[EventType]eventParser{
 }
 
 // ParseDataAndHandle parse message data and handle it
-func ParseDataAndHandle(event *WSEventMessage) error {
+func (c *client) ParseDataAndHandle(event *WSEventMessage) error {
 	data := &EventData{}
 	if err := tools.JSON.Unmarshal(event.Data, &data); err != nil {
 		return err
 	}
 	// match event message parser by EventType
 	if handle, ok := eventParserMap[data.EventType]; ok {
-		return handle(event, event.RawData)
+		return handle(c, event, event.RawData)
 	}
 	// else treat the message as plain text message
 	if DefaultHandlers.PlainTextHandler != nil {
@@ -48,12 +48,15 @@ func ParseData(message []byte, v interface{}) error {
 }
 
 // eventParser WebSocket message parser func
-type eventParser func(event *WSEventMessage, message []byte) error
+type eventParser func(c *client, event *WSEventMessage, message []byte) error
 
-func personalMessageHandler(event *WSEventMessage, message []byte) error {
+func personalMessageHandler(c *client, event *WSEventMessage, message []byte) error {
 	data := &PersonalMessageEventBody{}
 	if err := ParseData(message, data); err != nil {
 		return err
+	}
+	if c.conf.messageHandlers.PersonalMessage != nil {
+		return c.conf.messageHandlers.PersonalMessage(event, data)
 	}
 	if DefaultHandlers.PersonalMessage != nil {
 		return DefaultHandlers.PersonalMessage(event, data)
@@ -61,10 +64,13 @@ func personalMessageHandler(event *WSEventMessage, message []byte) error {
 	return nil
 }
 
-func channelMessageHandler(event *WSEventMessage, message []byte) error {
+func channelMessageHandler(c *client, event *WSEventMessage, message []byte) error {
 	data := &ChannelMessageEventBody{}
 	if err := ParseData(message, data); err != nil {
 		return err
+	}
+	if c.conf.messageHandlers.ChannelMessage != nil {
+		return c.conf.messageHandlers.ChannelMessage(event, data)
 	}
 	if DefaultHandlers.ChannelMessage != nil {
 		return DefaultHandlers.ChannelMessage(event, data)
@@ -72,10 +78,13 @@ func channelMessageHandler(event *WSEventMessage, message []byte) error {
 	return nil
 }
 
-func messageReactionHandler(event *WSEventMessage, message []byte) error {
+func messageReactionHandler(c *client, event *WSEventMessage, message []byte) error {
 	data := &MessageReactionEventBody{}
 	if err := ParseData(message, data); err != nil {
 		return err
+	}
+	if c.conf.messageHandlers.MessageReaction != nil {
+		return c.conf.messageHandlers.MessageReaction(event, data)
 	}
 	if DefaultHandlers.MessageReaction != nil {
 		return DefaultHandlers.MessageReaction(event, data)
@@ -83,10 +92,13 @@ func messageReactionHandler(event *WSEventMessage, message []byte) error {
 	return nil
 }
 
-func memberJoinHandler(event *WSEventMessage, message []byte) error {
+func memberJoinHandler(c *client, event *WSEventMessage, message []byte) error {
 	data := &MemberJoinEventBody{}
 	if err := ParseData(message, data); err != nil {
 		return err
+	}
+	if c.conf.messageHandlers.MemberJoin != nil {
+		return c.conf.messageHandlers.MemberJoin(event, data)
 	}
 	if DefaultHandlers.MemberJoin != nil {
 		return DefaultHandlers.MemberJoin(event, data)
@@ -94,10 +106,13 @@ func memberJoinHandler(event *WSEventMessage, message []byte) error {
 	return nil
 }
 
-func memberLeaveHandler(event *WSEventMessage, message []byte) error {
+func memberLeaveHandler(c *client, event *WSEventMessage, message []byte) error {
 	data := &MemberLeaveEventBody{}
 	if err := ParseData(message, data); err != nil {
 		return err
+	}
+	if c.conf.messageHandlers.MemberLeave != nil {
+		return c.conf.messageHandlers.MemberLeave(event, data)
 	}
 	if DefaultHandlers.MemberLeave != nil {
 		return DefaultHandlers.MemberLeave(event, data)

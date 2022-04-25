@@ -1,7 +1,7 @@
 package websocket
 
-// DefaultHandlers default handlers to manage all supported message
-var DefaultHandlers struct {
+// MessageHandlers instance message handlers
+type MessageHandlers struct {
 	PersonalMessage PersonalMessageEventHandler
 	ChannelMessage  ChannelMessageEventHandler
 	MessageReaction MessageReactionEventHandler
@@ -10,6 +10,36 @@ var DefaultHandlers struct {
 
 	PlainTextHandler PlainTextHandler
 	ErrorHandler     ErrorHandler
+}
+
+// DefaultHandlers default handlers to manage all supported message
+var DefaultHandlers struct {
+	MessageHandlers
+}
+
+func fillHandler(handlers *MessageHandlers) *MessageHandlers {
+	if handlers.PersonalMessage == nil {
+		handlers.PersonalMessage = DefaultHandlers.PersonalMessage
+	}
+	if handlers.ChannelMessage == nil {
+		handlers.ChannelMessage = DefaultHandlers.ChannelMessage
+	}
+	if handlers.MessageReaction == nil {
+		handlers.MessageReaction = DefaultHandlers.MessageReaction
+	}
+	if handlers.MemberJoin == nil {
+		handlers.MemberJoin = DefaultHandlers.MemberJoin
+	}
+	if handlers.MemberLeave == nil {
+		handlers.MemberLeave = DefaultHandlers.MemberLeave
+	}
+	if handlers.PlainTextHandler == nil {
+		handlers.PlainTextHandler = DefaultHandlers.PlainTextHandler
+	}
+	if handlers.ErrorHandler == nil {
+		handlers.ErrorHandler = DefaultHandlers.ErrorHandler
+	}
+	return handlers
 }
 
 // PersonalMessageEventHandler 个人消息事件 handler
@@ -33,7 +63,7 @@ type PlainTextHandler func(event *WSEventMessage, message []byte) error
 // ErrorHandler error handler
 type ErrorHandler func(err error)
 
-// RegisterHandlers Register event message handlers
+// RegisterHandlers Register global level event message handlers
 func RegisterHandlers(handlers ...interface{}) {
 	for _, h := range handlers {
 		switch handle := h.(type) {
@@ -55,7 +85,7 @@ func RegisterHandlers(handlers ...interface{}) {
 	}
 }
 
-// registerOtherHandlers Register non-business handlers
+// registerOtherHandlers Register global level non-business handlers
 func registerOtherHandlers(handlers ...interface{}) {
 	for _, h := range handlers {
 		switch handle := h.(type) {

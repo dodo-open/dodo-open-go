@@ -20,6 +20,30 @@ type Client interface {
 	Close()
 }
 
+type (
+	// messageChan message channel
+	messageChan chan *WSEventMessage
+
+	// errorChan error channel to handle errors
+	errorChan chan error
+
+	// client WebSocket client implement
+	client struct {
+		c               restClient.Client
+		conf            *config
+		conn            *websocket.Conn // WebSocket connection
+		messageChan     messageChan     // message channel
+		closeChan       errorChan       // errors channel
+		heartbeatTicker *time.Ticker    // ticker for heartbeat
+		isConnected     bool            // connection status
+	}
+
+	config struct {
+		messageQueueSize int
+		messageHandlers  *MessageHandlers // instance level message handlers
+	}
+)
+
 // New a WebSocket instance
 func New(rc restClient.Client, options ...OptionHandler) (Client, error) {
 	conf := &config{
@@ -43,29 +67,6 @@ func New(rc restClient.Client, options ...OptionHandler) (Client, error) {
 
 	return c, nil
 }
-
-type (
-	// messageChan message channel
-	messageChan chan *WSEventMessage
-
-	// errorChan error channel to handle errors
-	errorChan chan error
-
-	// client WebSocket client implement
-	client struct {
-		c               restClient.Client
-		conf            *config
-		conn            *websocket.Conn // WebSocket connection
-		messageChan     messageChan     // message channel
-		closeChan       errorChan       // errors channel
-		heartbeatTicker *time.Ticker    // ticker for heartbeat
-		isConnected     bool            // connection status
-	}
-
-	config struct {
-		messageQueueSize int
-	}
-)
 
 // Connect to the WebSocket server
 func (c *client) Connect() error {
@@ -184,7 +185,7 @@ func (c *client) listenMessageAndHandle() {
 			continue
 		}
 
-		if err := ParseDataAndHandle(event); err != nil {
+		if err := c.ParseDataAndHandle(event); err != nil {
 			log.Errorf("try to parse and handle message failed cause: %v", err)
 		}
 	}
