@@ -1,4 +1,4 @@
-package main
+package send_direct_message
 
 import (
 	"context"
@@ -7,10 +7,13 @@ import (
 	"github.com/dodo-open/dodo-open-go/model"
 	"os"
 	"path/filepath"
+	"testing"
 	"time"
 )
 
-func main() {
+// 由于服务器有请求限制，这里的范例将拆成两个方法，以测试的形式展现
+
+func setup(t *testing.T) client.Client {
 	// 创建实例
 	clientId := "在开放平台创建的 Bot 的 ClientID"
 	token := "在开放平台创建的 Bot 的 Token"
@@ -21,32 +24,36 @@ func main() {
 		client.WithDebugMode(false),
 	)
 	if err != nil {
-		fmt.Printf("创建实例失败：%v\n", err)
-		return
+		t.Fatalf("创建实例失败：%v", err)
+		return nil
 	}
+	return instance
+}
 
-	// ================================================================================
+// Test_SendTextDM 举例：发送文字消息
+func Test_SendTextDM(t *testing.T) {
+	instance := setup(t)
 
-	// 举例：发送频道文字消息
-	content := fmt.Sprintf("example: send-channel-message, time: %s", time.Now().Format("2006-01-02 15:04:05"))
-	sendTextResp, err := instance.SendChannelMessage(context.Background(), &model.SendChannelMessageReq{
-		ChannelId:   "171204",
+	content := fmt.Sprintf("example: send-direct-message, time: %s", time.Now().Format("2006-01-02 15:04:05"))
+	sendTextDmResp, err := instance.SendDirectMessage(context.Background(), &model.SendDirectMessageReq{
+		DodoId:      "5464471",
 		MessageBody: &model.TextMessage{Content: content},
 	})
 	if err != nil {
-		fmt.Printf("发送消息失败：%v\n", err)
+		t.Fatalf("发送消息失败：%v", err)
 		return
 	}
-	fmt.Printf("回报消息 ID：%v\n", sendTextResp.MessageId)
+	t.Logf("回报消息 ID：%v", sendTextDmResp.MessageId)
+}
 
-	// ================================================================================
+func Test_SendImageDM(t *testing.T) {
+	instance := setup(t)
 
-	// 举例：发送频道图片消息
 	// Step 1. 读取文件
-	abs, _ := filepath.Abs("./dodo.png")
+	abs, _ := filepath.Abs("../dodo.png")
 	bytes, err := os.ReadFile(abs)
 	if err != nil {
-		fmt.Printf("读取文件失败：%v\n", err)
+		t.Fatalf("读取文件失败：%v", err)
 		return
 	}
 	// Step 2. 上传图片资源，获取 CDN 链接和图片宽高
@@ -55,12 +62,12 @@ func main() {
 		Bytes:    bytes,
 	})
 	if err != nil {
-		fmt.Printf("上传资源失败：%v\n", err)
+		t.Fatalf("上传资源失败：%v", err)
 		return
 	}
 	// Step 3. 发送消息
-	sendImageResp, err := instance.SendChannelMessage(context.Background(), &model.SendChannelMessageReq{
-		ChannelId: "171204",
+	sendImageDmResp, err := instance.SendDirectMessage(context.Background(), &model.SendDirectMessageReq{
+		DodoId: "5464471",
 		MessageBody: &model.ImageMessage{
 			Url:        resourceResp.Url,
 			Width:      resourceResp.Width,
@@ -69,8 +76,8 @@ func main() {
 		},
 	})
 	if err != nil {
-		fmt.Printf("发送消息失败：%v\n", err)
+		t.Fatalf("发送消息失败：%v", err)
 		return
 	}
-	fmt.Printf("回报消息 ID：%v\n", sendImageResp.MessageId)
+	t.Logf("回报消息 ID：%v", sendImageDmResp.MessageId)
 }
