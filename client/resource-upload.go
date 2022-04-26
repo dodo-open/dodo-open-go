@@ -3,8 +3,8 @@ package client
 import (
 	"bytes"
 	"context"
-	"dodo-open-go/model"
-	"dodo-open-go/tools"
+	"github.com/dodo-open/dodo-open-go/model"
+	"github.com/dodo-open/dodo-open-go/tools"
 )
 
 // UploadImageByBytes 上传图片资源（字节方式）

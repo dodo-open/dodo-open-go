@@ -1,12 +1,11 @@
 package websocket
 
 import (
-	"context"
-	restClient "dodo-open-go/client"
-	"dodo-open-go/log"
-	"dodo-open-go/tools"
 	"errors"
 	"fmt"
+	restClient "github.com/dodo-open/dodo-open-go/client"
+	"github.com/dodo-open/dodo-open-go/log"
+	"github.com/dodo-open/dodo-open-go/tools"
 	"github.com/gorilla/websocket"
 	"time"
 )

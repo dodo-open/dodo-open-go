@@ -2,12 +2,12 @@ package client
 
 import (
 	"context"
-	"dodo-open-go/errs"
-	"dodo-open-go/model"
-	"dodo-open-go/network"
-	"dodo-open-go/tools"
-	"dodo-open-go/version"
 	"fmt"
+	"github.com/dodo-open/dodo-open-go/errs"
+	"github.com/dodo-open/dodo-open-go/model"
+	"github.com/dodo-open/dodo-open-go/network"
+	"github.com/dodo-open/dodo-open-go/tools"
+	"github.com/dodo-open/dodo-open-go/version"
 	"github.com/go-resty/resty/v2"
 	"net"
 	"net/http"
