@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	restClient "github.com/dodo-open/dodo-open-go/client"

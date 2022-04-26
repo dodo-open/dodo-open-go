@@ -8,7 +8,7 @@ import (
 )
 
 // UploadImageByBytes 上传图片资源（字节方式）
-// you can use ioutil.ReadFile (or other ways you want) to get the bytes of image file
+// you can use os.ReadFile (or other ways you want) to get the bytes of image file
 func (c *client) UploadImageByBytes(ctx context.Context, req *model.UploadImageByBytesReq) (*model.UploadImageRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err
