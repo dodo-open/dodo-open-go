@@ -2,8 +2,8 @@ package client
 
 import (
 	"context"
-	"dodo-open-go/model"
-	"dodo-open-go/tools"
+	"github.com/dodo-open/dodo-open-go/model"
+	"github.com/dodo-open/dodo-open-go/tools"
 )
 
 // SendDirectMessage 发送私聊消息

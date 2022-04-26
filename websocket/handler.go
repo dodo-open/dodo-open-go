@@ -13,8 +13,14 @@ type MessageHandlers struct {
 }
 
 // DefaultHandlers default handlers to manage all supported message
-var DefaultHandlers struct {
-	MessageHandlers
+var DefaultHandlers = &MessageHandlers{
+	PersonalMessage:  func(event *WSEventMessage, data *PersonalMessageEventBody) error { return nil },
+	ChannelMessage:   func(event *WSEventMessage, data *ChannelMessageEventBody) error { return nil },
+	MessageReaction:  func(event *WSEventMessage, data *MessageReactionEventBody) error { return nil },
+	MemberJoin:       func(event *WSEventMessage, data *MemberJoinEventBody) error { return nil },
+	MemberLeave:      func(event *WSEventMessage, data *MemberLeaveEventBody) error { return nil },
+	PlainTextHandler: func(event *WSEventMessage, message []byte) error { return nil },
+	ErrorHandler:     func(err error) {},
 }
 
 func fillHandler(handlers *MessageHandlers) *MessageHandlers {

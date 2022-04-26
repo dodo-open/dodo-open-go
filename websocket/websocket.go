@@ -1,12 +1,11 @@
 package websocket
 
 import (
-	"context"
-	restClient "dodo-open-go/client"
-	"dodo-open-go/log"
-	"dodo-open-go/tools"
 	"errors"
 	"fmt"
+	restClient "github.com/dodo-open/dodo-open-go/client"
+	"github.com/dodo-open/dodo-open-go/log"
+	"github.com/dodo-open/dodo-open-go/tools"
 	"github.com/gorilla/websocket"
 	"time"
 )
@@ -48,6 +47,7 @@ type (
 func New(rc restClient.Client, options ...OptionHandler) (Client, error) {
 	conf := &config{
 		messageQueueSize: 10000,
+		messageHandlers:  DefaultHandlers,
 	}
 
 	for _, optionHandler := range options {
@@ -167,7 +167,6 @@ func (c *client) readMessage() {
 			log.Errorf("json unmarshal failed cause: %v", err)
 			continue
 		}
-		event.RawData = message
 		c.messageChan <- event
 	}
 }

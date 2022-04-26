@@ -2,9 +2,9 @@ package client
 
 import (
 	"context"
-	"dodo-open-go/errs"
-	"dodo-open-go/model"
-	"dodo-open-go/tools"
+	"github.com/dodo-open/dodo-open-go/errs"
+	"github.com/dodo-open/dodo-open-go/model"
+	"github.com/dodo-open/dodo-open-go/tools"
 )
 
 // GetBotInfo 取机器人信息

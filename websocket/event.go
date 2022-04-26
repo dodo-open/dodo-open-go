@@ -1,8 +1,6 @@
 package websocket
 
-import (
-	"dodo-open-go/tools"
-)
+import "github.com/dodo-open/dodo-open-go/tools"
 
 // EventType event type code
 type EventType string
@@ -32,18 +30,18 @@ func (c *client) ParseDataAndHandle(event *WSEventMessage) error {
 	}
 	// match event message parser by EventType
 	if handle, ok := eventParserMap[data.EventType]; ok {
-		return handle(c, event, event.RawData)
+		return handle(c, event, event.Data)
 	}
 	// else treat the message as plain text message
 	if DefaultHandlers.PlainTextHandler != nil {
-		return DefaultHandlers.PlainTextHandler(event, event.RawData)
+		return DefaultHandlers.PlainTextHandler(event, event.Data)
 	}
 	return nil
 }
 
 // ParseData parse message data
 func ParseData(message []byte, v interface{}) error {
-	data := tools.JSON.Get(message, "data", "eventBody")
+	data := tools.JSON.Get(message, "eventBody")
 	return tools.JSON.Unmarshal([]byte(data.ToString()), v)
 }
 

@@ -2,8 +2,8 @@ package client
 
 import (
 	"context"
-	"dodo-open-go/model"
 	"errors"
+	"github.com/dodo-open/dodo-open-go/model"
 	"github.com/go-resty/resty/v2"
 	"time"
 )
