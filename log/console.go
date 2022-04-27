@@ -52,7 +52,7 @@ func output(level Level, v ...interface{}) {
 	pc, file, line, _ := runtime.Caller(3)
 	file = filepath.Base(file)
 	funcName := strings.TrimPrefix(filepath.Ext(runtime.FuncForPC(pc).Name()), ".")
-	format := "[%s] [%s] %s:%d %s | " + fmt.Sprint(v...) + "\n"
+	format := "%5s | %19s | %s:%d | %s | " + fmt.Sprint(v...) + "\n"
 	date := time.Now().Format("2006-01-02 15:04:05")
 	fmt.Printf(format, level, date, file, line, funcName)
 }

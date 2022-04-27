@@ -110,10 +110,12 @@ func (c *client) Listen() error {
 	for {
 		select {
 		case err := <-c.closeChan:
-			log.Errorf("stop listening, error: %v", err)
+			log.Errorf("[stop listening] %v", err)
 			if DefaultHandlers.ErrorHandler != nil {
 				DefaultHandlers.ErrorHandler(err)
 			}
+			// reconnect after 2 seconds
+			time.Sleep(time.Second * 2)
 			if err := c.Reconnect(); err != nil {
 				return err
 			}
@@ -138,9 +140,10 @@ func (c *client) Write(event *WSEventMessage) error {
 // Reconnect to the WebSocket server
 func (c *client) Reconnect() error {
 	c.Close()
-	c.messageChan = make(messageChan, c.conf.messageQueueSize)
-	c.closeChan = make(errorChan, 16)
-	return c.Connect()
+	if err := c.Connect(); err != nil {
+		return err
+	}
+	return c.Listen()
 }
 
 // Close connection and stop heartbeat ticker
