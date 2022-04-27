@@ -11,8 +11,8 @@ type IslandElement struct {
 	IslandId         string `json:"islandId"`         // 群号
 	IslandName       string `json:"islandName"`       // 群名称
 	CoverUrl         string `json:"coverUrl"`         // 群头像
-	DefaultChannelId int    `json:"defaultChannelId"` // 默认进入频道
-	SystemChannelId  int    `json:"systemChannelId"`  // 系统消息频道
+	DefaultChannelId string `json:"defaultChannelId"` // 默认进入频道
+	SystemChannelId  string `json:"systemChannelId"`  // 系统消息频道
 }
 
 // GetIslandInfoReq 取群信息 request

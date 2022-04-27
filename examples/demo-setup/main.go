@@ -19,25 +19,25 @@ func main() {
 		client.WithDebugMode(false),
 	)
 	if err != nil {
-		fmt.Printf("创建实例失败：%v", err)
+		fmt.Printf("创建实例失败：%v\n", err)
 		return
 	}
 
 	// 举例：请求 Bot 的基础信息
 	if info, err := instance.GetBotInfo(context.Background()); err != nil {
-		fmt.Printf("获取 Bot 信息失败：%v", err)
+		fmt.Printf("获取 Bot 信息失败：%v\n", err)
 		return
 	} else {
 		j, _ := tools.JSON.MarshalIndent(info, "", "    ")
-		fmt.Printf("Bot 信息：%s", string(j))
+		fmt.Printf("Bot 信息：%s\n", string(j))
 	}
 
 	// 举例：请求 Bot 加入过的群的列表
 	if list, err := instance.GetIslandList(context.Background()); err != nil {
-		fmt.Printf("获取群列表失败：%v", err)
+		fmt.Printf("获取群列表失败：%v\n", err)
 		return
 	} else {
 		j, _ := tools.JSON.MarshalIndent(list, "", "    ")
-		fmt.Printf("群列表：%s", string(j))
+		fmt.Printf("群列表：%s\n", string(j))
 	}
 }
