@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	"github.com/dodo-open/dodo-open-go/model"
 	jsoniter "github.com/json-iterator/go"
 )
 
@@ -79,7 +80,7 @@ type (
 		DodoId      string              `json:"dodoId"`      // 来源DoDo号
 		Personal    *PersonalModel      `json:"personal"`    // 个人信息
 		MessageId   string              `json:"messageId"`   // 消息ID
-		MessageType int                 `json:"messageType"` // 消息类型，1：文本消息，2：图片消息，3：视频消息
+		MessageType model.MessageType   `json:"messageType"` // 消息类型，1：文本消息，2：图片消息，3：视频消息
 		MessageBody jsoniter.RawMessage `json:"messageBody"` // 消息内容（model.IMessageBody）
 	}
 
@@ -92,7 +93,7 @@ type (
 		Member      *MemberModel        `json:"member"`      // 成员信息
 		Reference   *ReferenceModel     `json:"reference"`   // 回复信息
 		MessageId   string              `json:"messageId"`   // 消息ID
-		MessageType int                 `json:"messageType"` // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
+		MessageType model.MessageType   `json:"messageType"` // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
 		MessageBody jsoniter.RawMessage `json:"messageBody"` // 消息内容（model.IMessageBody）
 	}
 

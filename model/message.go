@@ -1,9 +1,19 @@
 package model
 
+type MessageType int
+
+const (
+	TextMsg  MessageType = 1
+	ImageMsg MessageType = 2
+	VideoMsg MessageType = 3
+	FileMsg  MessageType = 5
+	Unknown  MessageType = 0
+)
+
 type (
 	// IMessageBody 消息内容
 	IMessageBody interface {
-		MessageType() int // 获取消息类型
+		MessageType() MessageType // 获取消息类型
 	}
 
 	// TextMessage 频道文本消息内容
@@ -33,20 +43,28 @@ type (
 		Name string `json:"name" binding:"required"` // 文件名称
 		Size uint64 `json:"size" binding:"required"` // 文件大小
 	}
+
+	// UnknownMessage 未知格式消息内容
+	UnknownMessage struct {
+	}
 )
 
-func (m *TextMessage) MessageType() int {
-	return 1
+func (m *TextMessage) MessageType() MessageType {
+	return TextMsg
 }
 
-func (m *ImageMessage) MessageType() int {
-	return 2
+func (m *ImageMessage) MessageType() MessageType {
+	return ImageMsg
 }
 
-func (m *VideoMessage) MessageType() int {
-	return 3
+func (m *VideoMessage) MessageType() MessageType {
+	return VideoMsg
 }
 
-func (m *FileMessage) MessageType() int {
-	return 5
+func (m *FileMessage) MessageType() MessageType {
+	return FileMsg
+}
+
+func (m *UnknownMessage) MessageType() MessageType {
+	return Unknown
 }

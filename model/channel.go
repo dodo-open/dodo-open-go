@@ -49,7 +49,7 @@ type (
 	// SendChannelMessageReq 发送频道消息 request
 	SendChannelMessageReq struct {
 		ChannelId           string       `json:"channelId" binding:"required"`   // 频道号
-		MessageType         int          `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
+		MessageType         MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 		MessageBody         IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 		ReferencedMessageId string       `json:"referencedMessageId,omitempty"`  // 回复消息ID
 	}
@@ -74,7 +74,7 @@ type (
 	// EditChannelMessageReq 编辑频道消息 request
 	EditChannelMessageReq struct {
 		MessageId   string       `json:"messageId" binding:"required"`   // 欲编辑的消息 ID
-		MessageType int          `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
+		MessageType MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 		MessageBody IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 	}
 

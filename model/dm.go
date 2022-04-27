@@ -5,7 +5,7 @@ import "errors"
 // SendDirectMessageReq 发送私聊消息 request
 type SendDirectMessageReq struct {
 	DodoId      string       `json:"dodoId" binding:"required"`      // DoDo号
-	MessageType int          `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
+	MessageType MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 	MessageBody IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 }
 
