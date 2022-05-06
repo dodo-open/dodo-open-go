@@ -106,3 +106,29 @@ func (p *WithdrawChannelMessageReq) ValidParams() error {
 	}
 	return nil
 }
+
+// SetChannelMessageReactionReq 频道消息添加反应 request
+type SetChannelMessageReactionReq struct {
+	ReactionTarget *ReactionTarget `json:"reactionTarget" binding:"required"` // 反应对象
+	ReactionEmoji  *ReactionEmoji  `json:"reactionEmoji" binding:"required"`  // 反应表情
+	ReactionType   int             `json:"reactionType" binding:"required"`   // 反应类型，0：删除，1：新增
+}
+
+func (p *SetChannelMessageReactionReq) ValidParams() error {
+	if p.ReactionTarget == nil {
+		return errors.New("invalid parameter ReactionTarget (nil detected)")
+	}
+	if p.ReactionTarget.Id == "" {
+		return errors.New("invalid parameter ReactionTarget.Id (empty detected)")
+	}
+	if p.ReactionEmoji == nil {
+		return errors.New("invalid parameter ReactionEmoji (nil detected)")
+	}
+	if p.ReactionEmoji.Id == "" {
+		return errors.New("invalid parameter ReactionEmoji.Id (empty detected)")
+	}
+	if p.ReactionType != 0 && p.ReactionType != 1 {
+		return errors.New("invalid parameter ReactionType (should be 0 or 1)")
+	}
+	return nil
+}

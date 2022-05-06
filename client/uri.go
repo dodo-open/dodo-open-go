@@ -18,6 +18,8 @@ const (
 	editChannelMessageUri     uri = "/api/v1/channel/message/edit"     // 发送频道消息
 	withdrawChannelMessageUri uri = "/api/v1/channel/message/withdraw" // 撤回频道消息
 
+	setChannelMessageReaction uri = "/api/v1/channel/message/reaction" // 频道消息添加反应
+
 	getRoleListUri      uri = "/api/v1/role/list"          // 取身份组列表
 	addRoleMemberUri    uri = "/api/v1/role/member/add"    // 身份组新增成员
 	removeRoleMemberUri uri = "/api/v1/role/member/remove" // 身份组移除成员

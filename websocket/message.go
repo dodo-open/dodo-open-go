@@ -60,21 +60,6 @@ type (
 )
 
 type (
-	// ReactionTargetModel 反映对象
-	ReactionTargetModel struct {
-		Type int    `json:"type"` // 对象类型，0：消息
-		Id   string `json:"id"`   // 对象ID，若对象类型为0，则代表消息ID
-	}
-
-	// EmojiModel 表情内容
-	// 表情 ID 参考文档：https://open.imdodo.com/api/message/emoji.html#%E8%A1%A8%E6%83%85%E5%86%85%E5%AE%B9
-	EmojiModel struct {
-		Type int    `json:"type"` // 表情类型，1：Emoji
-		Id   string `json:"id"`   // 表情 ID
-	}
-)
-
-type (
 	// PersonalMessageEventBody 个人消息事件
 	PersonalMessageEventBody struct {
 		DodoId      string              `json:"dodoId"`      // 来源DoDo号
@@ -99,12 +84,12 @@ type (
 
 	// MessageReactionEventBody 消息反应事件
 	MessageReactionEventBody struct {
-		IslandId       string               `json:"islandId"`       // 来源群号
-		ChannelId      string               `json:"channelId"`      // 来源频道号
-		DodoId         string               `json:"dodoId"`         // 来源DoDo号
-		ReactionTarget *ReactionTargetModel `json:"reactionTarget"` // 反应对象
-		ReactionEmoji  *EmojiModel          `json:"reactionEmoji"`  // 反应表情
-		ReactionType   int                  `json:"reactionType"`   // 反应类型，0：删除，1：新增
+		IslandId       string                `json:"islandId"`       // 来源群号
+		ChannelId      string                `json:"channelId"`      // 来源频道号
+		DodoId         string                `json:"dodoId"`         // 来源DoDo号
+		ReactionTarget *model.ReactionTarget `json:"reactionTarget"` // 反应对象
+		ReactionEmoji  *model.ReactionEmoji  `json:"reactionEmoji"`  // 反应表情
+		ReactionType   int                   `json:"reactionType"`   // 反应类型，0：删除，1：新增
 	}
 
 	// MemberJoinEventBody 成员加入事件
@@ -116,11 +101,12 @@ type (
 
 	// MemberLeaveEventBody 成员退出事件
 	MemberLeaveEventBody struct {
-		IslandId      string `json:"islandId"`      // 来源群号
-		DodoId        string `json:"dodoId"`        // 来源DoDo号
-		LeaveType     int    `json:"leaveType"`     // 退出类型，1：主动，2：被踢
-		OperateDoDoId string `json:"operateDoDoId"` // 操作者DoDo号（执行踢出操作的人）
-		ModifyTime    string `json:"modifyTime"`    // 变动时间
+		IslandId      string         `json:"islandId"`      // 来源群号
+		DodoId        string         `json:"dodoId"`        // 来源DoDo号
+		Personal      *PersonalModel `json:"personal"`      // 个人信息
+		LeaveType     int            `json:"leaveType"`     // 退出类型，1：主动，2：被踢
+		OperateDoDoId string         `json:"operateDoDoId"` // 操作者DoDo号（执行踢出操作的人）
+		ModifyTime    string         `json:"modifyTime"`    // 变动时间
 	}
 )
 

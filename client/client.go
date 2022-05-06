@@ -46,6 +46,7 @@ type (
 		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
 		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error)
 		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)
+		SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error)
 	}
 
 	// RoleAPI role API interface

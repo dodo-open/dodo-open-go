@@ -101,3 +101,21 @@ func (c *client) WithdrawChannelMessage(ctx context.Context, req *model.Withdraw
 	}
 	return true, nil
 }
+
+// SetChannelMessageReaction 频道消息添加反应
+func (c *client) SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error) {
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(setChannelMessageReaction))
+	if err != nil {
+		return false, err
+	}
+
+	result := c.unmarshalResult(resp)
+	if result.Status != 0 {
+		return false, errs.New(result.Status, result.Message)
+	}
+	return true, nil
+}

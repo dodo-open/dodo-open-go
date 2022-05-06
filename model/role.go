@@ -16,8 +16,9 @@ func (p *GetRoleListReq) ValidParams() error {
 
 // RoleElement 取身份组列表 list element
 type RoleElement struct {
-	RoleId   string `json:"roleId"`   // 身份组ID
-	RoleName string `json:"roleName"` // 身份组名称
+	RoleId    string `json:"roleId"`    // 身份组ID
+	RoleName  string `json:"roleName"`  // 身份组名称
+	RoleColor string `json:"roleColor"` // 身份组颜色，例：#ffffff
 }
 
 // AddRoleMemberReq 身份组新增成员 request
