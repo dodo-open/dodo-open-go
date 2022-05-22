@@ -1,6 +1,22 @@
-# dodo-open-go
+<p align="center">
+  <a href="https://open.imdodo.com">
+    <img src="https://open.imdodo.com/images/hero.png" width="200" height="200" alt="dodo-open">
+  </a>
+</p>
 
-> DoDo开放平台官方 GO SDK
+<div align="center">
+
+  # dodo-open-go
+
+  _✨ 基于最新 GO 开发，内建事件对象解析、支持多实例、支持自定义事件处理中间件。 ✨_
+
+  <a href="https://github.com/dodo-open/dodo-open-go/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/dodo-open/dodo-open-go" alt="license">
+  </a>
+  <a href="https://github.com/dodo-open/dodo-open-go/releases">
+    <img src="https://img.shields.io/github/v/release/dodo-open/dodo-open-go?color=blueviolet&include_prereleases"
+      alt="release">
+  </a>
 
 ## 特性
 
