@@ -8,12 +8,13 @@ type GetIslandListReq struct {
 
 // IslandElement 取群列表 list element
 type IslandElement struct {
-	IslandId         string `json:"islandId"`         // 群号
-	IslandName       string `json:"islandName"`       // 群名称
-	CoverUrl         string `json:"coverUrl"`         // 群头像
-	MemberCount      int    `json:"memberCount"`      // 成员数
-	DefaultChannelId string `json:"defaultChannelId"` // 默认进入频道
-	SystemChannelId  string `json:"systemChannelId"`  // 系统消息频道
+	IslandId          string `json:"islandId"`          // 群号
+	IslandName        string `json:"islandName"`        // 群名称
+	CoverUrl          string `json:"coverUrl"`          // 群头像
+	MemberCount       int    `json:"memberCount"`       // 成员数
+	OnlineMemberCount int    `json:"onlineMemberCount"` // 在线成员数
+	DefaultChannelId  string `json:"defaultChannelId"`  // 默认进入频道
+	SystemChannelId   string `json:"systemChannelId"`   // 系统消息频道
 }
 
 // GetIslandInfoReq 取群信息 request

@@ -14,21 +14,24 @@ const (
 	getChannelListUri uri = "/api/v1/channel/list" // 取频道列表
 	getChannelInfoUri uri = "/api/v1/channel/info" // 取频道信息
 
-	sendChannelMessageUri     uri = "/api/v1/channel/message/send"     // 发送频道消息
-	editChannelMessageUri     uri = "/api/v1/channel/message/edit"     // 发送频道消息
-	withdrawChannelMessageUri uri = "/api/v1/channel/message/withdraw" // 撤回频道消息
-
-	setChannelMessageReaction uri = "/api/v1/channel/message/reaction" // 频道消息添加反应
+	sendChannelMessageUri     uri = "/api/v1/channel/message/send"            // 发送频道消息
+	editChannelMessageUri     uri = "/api/v1/channel/message/edit"            // 发送频道消息
+	withdrawChannelMessageUri uri = "/api/v1/channel/message/withdraw"        // 撤回频道消息
+	setChannelMessageReaction uri = "/api/v1/channel/message/reaction"        // 频道消息添加反应（自 ver.0.0.8 的下一次版本更新开始停止使用）
+	addChannelMessageReaction uri = "/api/v1/channel/message/reaction/add"    // 新增文字频道消息反应
+	remChannelMessageReaction uri = "/api/v1/channel/message/reaction/remove" // 移除文字频道消息反应
 
 	getRoleListUri      uri = "/api/v1/role/list"          // 取身份组列表
 	addRoleMemberUri    uri = "/api/v1/role/member/add"    // 身份组新增成员
 	removeRoleMemberUri uri = "/api/v1/role/member/remove" // 身份组移除成员
 
-	getMemberListUri     uri = "/api/v1/member/list"      // 取成员列表
-	getMemberInfoUri     uri = "/api/v1/member/info"      // 取成员信息
-	getMemberRoleListUri uri = "/api/v1/member/role/list" // 取成员身份组列表
-	setMemberNickUri     uri = "/api/v1/member/nick/set"  // 设置成员昵称
-	setMemberSilenceUri  uri = "/api/v1/member/ban/set"   // 设置成员禁言
+	getMemberListUri         uri = "/api/v1/member/list"             // 取成员列表
+	getMemberInfoUri         uri = "/api/v1/member/info"             // 取成员信息
+	getMemberRoleListUri     uri = "/api/v1/member/role/list"        // 取成员身份组列表
+	setMemberNickUri         uri = "/api/v1/member/nick/set"         // 设置成员昵称
+	setMemberSilenceUri      uri = "/api/v1/member/ban/set"          // 设置成员禁言
+	getMemberInviteInfo      uri = "/api/v1/member/invitation/info"  // 取成员邀请信息
+	getMemberUPowerchainInfo uri = "/api/v1/member/upowerchain/info" // 取成员高能链数字藏品信息
 
 	sendDirectMessageUri uri = "/api/v1/personal/message/send" // 发送私聊消息
 

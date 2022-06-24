@@ -97,3 +97,39 @@ func (c *client) SetMemberSilence(ctx context.Context, req *model.SetMemberSilen
 	}
 	return true, nil
 }
+
+// GetMemberInviteInfo 取成员邀请信息
+func (c *client) GetMemberInviteInfo(ctx context.Context, req *model.GetMemberInviteInfoReq) (*model.GetMemberInviteInfoRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(getMemberInviteInfo))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.GetMemberInviteInfoRsp{}
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// GetMemberUPowerchainInfo 取成员高能链数字藏品信息
+func (c *client) GetMemberUPowerchainInfo(ctx context.Context, req *model.GetMemberUPowerchainInfoReq) (*model.GetMemberUPowerchainInfoRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(getMemberUPowerchainInfo))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.GetMemberUPowerchainInfoRsp{}
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
+}

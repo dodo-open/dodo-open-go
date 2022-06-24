@@ -25,44 +25,48 @@ type (
 	// Base client basic interface
 	Base interface {
 		GetConfig() *Config
-		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)
-		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error)
+		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)                         // GetBotInfo 取机器人信息
+		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error) // SetBotIslandLeave 置机器人群退出
 	}
 
 	// IslandAPI island API interface
 	IslandAPI interface {
-		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)
-		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)
+		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)                               // GetIslandList 取群列表
+		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error) // GetIslandInfo 取群信息
 	}
 
 	// ChannelAPI channel basic API interface
 	ChannelAPI interface {
-		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)
-		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error)
+		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)  // GetChannelList 取频道列表
+		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error) // GetChannelInfo 取频道信息
 	}
 
 	// MessageAPI message API interface
 	MessageAPI interface {
-		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)
-		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error)
-		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)
-		SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error)
+		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error) // SetChannelMessageSend 发送频道消息
+		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error) // SetChannelMessageEdit 编辑频道消息
+		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)                 // SetChannelMessageWithdraw 撤回频道消息
+		SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error)           // SetChannelMessageReaction （即将废弃）频道消息添加反应
+		AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error)           // SetChannelMessageReactionAdd 添加频道消息反应
+		RemChannelMessageReaction(ctx context.Context, req *model.RemChannelMessageReactionReq) (bool, error)           // SetChannelMessageReactionRemove 移除文字频道消息反应
 	}
 
 	// RoleAPI role API interface
 	RoleAPI interface {
-		GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]*model.RoleElement, error)
-		AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)
-		RemoveRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)
+		GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]*model.RoleElement, error) // GetRoleList 取身份组列表
+		AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)             // SetRoleMemberAdd 身份组新增成员
+		RemoveRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)          // SetRoleMemberRemove 身份组移除成员
 	}
 
 	// MemberAPI member API interface
 	MemberAPI interface {
-		GetMemberList(ctx context.Context, req *model.GetMemberListReq) (*model.GetMemberListRsp, error)
-		GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error)
-		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)
-		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)
-		SetMemberSilence(ctx context.Context, req *model.SetMemberSilenceReq) (bool, error)
+		GetMemberList(ctx context.Context, req *model.GetMemberListReq) (*model.GetMemberListRsp, error)                                  // GetMemberList 取成员列表
+		GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error)                                  // GetMemberInfo 取成员信息
+		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)                             // GetMemberRoleList 取成员身份组列表
+		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)                                                     // SetMemberNick 设置成员昵称
+		SetMemberSilence(ctx context.Context, req *model.SetMemberSilenceReq) (bool, error)                                               // SetMemberBan 设置成员禁言，即不能在频道发布内容
+		GetMemberInviteInfo(ctx context.Context, req *model.GetMemberInviteInfoReq) (*model.GetMemberInviteInfoRsp, error)                // GetMemberInvitationInfo 取成员邀请信息
+		GetMemberUPowerchainInfo(ctx context.Context, req *model.GetMemberUPowerchainInfoReq) (*model.GetMemberUPowerchainInfoRsp, error) // GetMemberUPowerchainInfo 取成员高能链数字藏品信息
 	}
 
 	// DirectMessageAPI direct message (a.k.a. DM) API interface

@@ -132,3 +132,42 @@ func (p *SetChannelMessageReactionReq) ValidParams() error {
 	}
 	return nil
 }
+
+// AddChannelMessageReactionReq 新增文字频道消息反应 request
+type AddChannelMessageReactionReq struct {
+	MessageId string         `json:"messageId" binding:"required"` // 消息 ID
+	Emoji     *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情
+}
+
+func (p *AddChannelMessageReactionReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	if p.Emoji == nil {
+		return errors.New("invalid parameter Emoji (nil detected)")
+	}
+	if p.Emoji.Id == "" {
+		return errors.New("invalid parameter Emoji.Id (empty detected)")
+	}
+	return nil
+}
+
+// RemChannelMessageReactionReq 移除文字频道消息反应 request
+type RemChannelMessageReactionReq struct {
+	MessageId string         `json:"messageId" binding:"required"` // 消息 ID
+	Emoji     *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情
+	DoDoId    string         `json:"dodoId,omitempty"`             // DoDo号，不传或传空时表示移除机器人自身的反应
+}
+
+func (p *RemChannelMessageReactionReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	if p.Emoji == nil {
+		return errors.New("invalid parameter Emoji (nil detected)")
+	}
+	if p.Emoji.Id == "" {
+		return errors.New("invalid parameter Emoji.Id (empty detected)")
+	}
+	return nil
+}
