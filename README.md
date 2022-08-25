@@ -6,9 +6,9 @@
 
 <div align="center">
 
-  # dodo-open-go
+# dodo-open-go
 
-  _✨ 基于最新 GO 开发，内建事件对象解析、支持多实例、支持自定义事件处理中间件。 ✨_
+_✨ 基于最新 GO 开发，内建事件对象解析、支持多实例、支持自定义事件处理中间件。 ✨_
 
   <a href="https://github.com/dodo-open/dodo-open-go/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/dodo-open/dodo-open-go" alt="license">
@@ -22,11 +22,11 @@
 
 ## 特性
 
-* DoDo OpenAPI
-* WebSocket
-* 内建事件对象解析
-* 支持多实例
-* 支持自定义事件处理中间件
+- DoDo OpenAPI
+- WebSocket
+- 内建事件对象解析
+- 支持多实例
+- 支持自定义事件处理中间件
 
 ## 起步
 
@@ -97,7 +97,20 @@ channelMessageHandler := func(event *WSEventMessage, data *ChannelMessageEventBo
 
 在创建`Bot`实例时，你所使用的 `websocket.New()` 支持传入以 `With` 词缀开头的配置中间件，我们提供了 `websocket.WithMessageHandlers(handlers *MessageHandlers)` 方法来支持你注册实例级的消息处理器。
 
+## 关于协作
+
+我们欢迎社区参与协同开发工作，要想参与到 `dodo-open-go` 的开发工作中，你需要：
+
+1. 会写 golang
+2. 基本了解 go-resty
+3. fork 本仓库
+4. 在您自己的 fork 仓库中完成代码开发
+5. 向上游主库（也就是 [`dodo-open/dodo-open-go`](https://github.com/dodo-open/dodo-open-go)）发起 Pull Request
+6. 等候我们的审阅，或前往[DoDo 开发者社区-内测版 | DoDo 渡渡语音](https://imdodo.com/s/108015)敲一敲我们
+
+需要注意，在 `dodo-open-go` 中，我们的一些 Restful API 封装，不一定完全使用来自开放平台文档所给的接口名称，例如发送消息 `SetChannelMessageSend`，在本 SDK 中被称作 `SendChannelMessage`。我们将大多数程序化的描述名称，改变成了英文口语上更容易读且朗朗上口的名称。所以当你需要确认一个 API 是否被他人封装，请用 URI 进行全局检索。
+
 ## TODO
 
-* 或许我们需要重构封装事件数据的结构，当前`WSEventMessage.Data`和`EventData.EventBody`这两个属性都使用了`jsoniter.RawMessage`来封装。
-* WebSocket 的重连流程不是很友好，当前如果需要断线重连，你必须关闭之前的所有资源，包括`conn`、`messageChan`、`closeChan`。
+- 或许我们需要重构封装事件数据的结构，当前`WSEventMessage.Data`和`EventData.EventBody`这两个属性都使用了`jsoniter.RawMessage`来封装。
+- WebSocket 的重连流程不是很友好，当前如果需要断线重连，你必须关闭之前的所有资源，包括`conn`、`messageChan`、`closeChan`。
