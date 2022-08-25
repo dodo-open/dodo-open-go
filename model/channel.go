@@ -83,7 +83,7 @@ func (p *CreateChannelReq) ValidParams() error {
 type EditChannelReq struct {
 	IslandId    string `json:"islandId" binding:"required"`  // 群号
 	ChannelId   string `json:"channelId" binding:"required"` // 频道号
-	ChannelName string `json:"channelName"`
+	ChannelName string `json:"channelName,omitempty"`
 }
 
 func (p *EditChannelReq) ValidParams() error {
@@ -119,6 +119,7 @@ type (
 		MessageType         MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 		MessageBody         IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 		ReferencedMessageId string       `json:"referencedMessageId,omitempty"`  // 回复消息ID
+		DodoId              string       `json:"dodoId,omitempty"`               // DoDo号，非必传，如果传了，则给该成员发送频道私信
 	}
 
 	// SendChannelMessageRsp 发送频道消息 response
@@ -170,32 +171,6 @@ type WithdrawChannelMessageReq struct {
 func (p *WithdrawChannelMessageReq) ValidParams() error {
 	if p.MessageId == "" {
 		return errors.New("invalid parameter MessageId (empty detected)")
-	}
-	return nil
-}
-
-// SetChannelMessageReactionReq 频道消息添加反应 request
-type SetChannelMessageReactionReq struct {
-	ReactionTarget *ReactionTarget `json:"reactionTarget" binding:"required"` // 反应对象
-	ReactionEmoji  *ReactionEmoji  `json:"reactionEmoji" binding:"required"`  // 反应表情
-	ReactionType   int             `json:"reactionType" binding:"required"`   // 反应类型，0：删除，1：新增
-}
-
-func (p *SetChannelMessageReactionReq) ValidParams() error {
-	if p.ReactionTarget == nil {
-		return errors.New("invalid parameter ReactionTarget (nil detected)")
-	}
-	if p.ReactionTarget.Id == "" {
-		return errors.New("invalid parameter ReactionTarget.Id (empty detected)")
-	}
-	if p.ReactionEmoji == nil {
-		return errors.New("invalid parameter ReactionEmoji (nil detected)")
-	}
-	if p.ReactionEmoji.Id == "" {
-		return errors.New("invalid parameter ReactionEmoji.Id (empty detected)")
-	}
-	if p.ReactionType != 0 && p.ReactionType != 1 {
-		return errors.New("invalid parameter ReactionType (should be 0 or 1)")
 	}
 	return nil
 }

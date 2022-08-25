@@ -52,7 +52,6 @@ type (
 		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error) // SetChannelMessageSend 发送频道消息
 		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error) // SetChannelMessageEdit 编辑频道消息
 		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)                 // SetChannelMessageWithdraw 撤回频道消息
-		SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error)           // SetChannelMessageReaction （即将废弃）频道消息添加反应
 		AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error)           // SetChannelMessageReactionAdd 添加频道消息反应
 		RemChannelMessageReaction(ctx context.Context, req *model.RemChannelMessageReactionReq) (bool, error)           // SetChannelMessageReactionRemove 移除文字频道消息反应
 	}

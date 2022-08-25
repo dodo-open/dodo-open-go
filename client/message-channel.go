@@ -65,26 +65,6 @@ func (c *client) WithdrawChannelMessage(ctx context.Context, req *model.Withdraw
 	return true, nil
 }
 
-// SetChannelMessageReaction 频道消息添加反应
-// Deprecated: 这个方法会在 ver.0.0.8 版本往后的某次平台更新后废弃，请尽快切换至新的方法
-// Deprecated: 新的方法请参考 AddChannelMessageReaction 和 RemChannelMessageReaction
-func (c *client) SetChannelMessageReaction(ctx context.Context, req *model.SetChannelMessageReactionReq) (bool, error) {
-	if err := req.ValidParams(); err != nil {
-		return false, err
-	}
-
-	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(setChannelMessageReaction))
-	if err != nil {
-		return false, err
-	}
-
-	result := c.unmarshalResult(resp)
-	if result.Status != 0 {
-		return false, errs.New(result.Status, result.Message)
-	}
-	return true, nil
-}
-
 // AddChannelMessageReaction 添加频道消息反应
 func (c *client) AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {

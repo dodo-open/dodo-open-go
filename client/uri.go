@@ -27,7 +27,6 @@ const (
 	sendChannelMessageUri     uri = "/api/v1/channel/message/send"            // 发送频道消息
 	editChannelMessageUri     uri = "/api/v1/channel/message/edit"            // 发送频道消息
 	withdrawChannelMessageUri uri = "/api/v1/channel/message/withdraw"        // 撤回频道消息
-	setChannelMessageReaction uri = "/api/v1/channel/message/reaction"        // 频道消息添加反应（自 ver.0.0.8 的下一次版本更新开始停止使用）
 	addChannelMessageReaction uri = "/api/v1/channel/message/reaction/add"    // 新增文字频道消息反应
 	remChannelMessageReaction uri = "/api/v1/channel/message/reaction/remove" // 移除文字频道消息反应
 

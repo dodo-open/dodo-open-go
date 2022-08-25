@@ -3,11 +3,12 @@ package model
 type MessageType int
 
 const (
-	TextMsg  MessageType = 1
-	ImageMsg MessageType = 2
-	VideoMsg MessageType = 3
-	FileMsg  MessageType = 5
-	Unknown  MessageType = 0
+	TextMsg  MessageType = 1 // 频道文本消息
+	ImageMsg MessageType = 2 // 频道图片消息
+	VideoMsg MessageType = 3 // 频道视频消息
+	FileMsg  MessageType = 5 // 频道文件消息
+	CardMsg  MessageType = 6 // 频道卡片消息
+	Unknown  MessageType = 0 // 未知格式消息
 )
 
 type (
@@ -44,6 +45,12 @@ type (
 		Size uint64 `json:"size" binding:"required"` // 文件大小
 	}
 
+	// CardMessage 频道卡片消息内容
+	CardMessage struct {
+		Content string           `json:"content,omitempty"`       // 附加文本，支持Markdown语法、菱形语法
+		Card    *CardBodyElement `json:"card" binding:"required"` // 卡片，限制 10000 个字符，支持 Markdown 语法，不支持菱形语法
+	}
+
 	// UnknownMessage 未知格式消息内容
 	UnknownMessage struct {
 	}
@@ -65,6 +72,18 @@ func (m *FileMessage) MessageType() MessageType {
 	return FileMsg
 }
 
+func (m *CardMessage) MessageType() MessageType {
+	return CardMsg
+}
+
 func (m *UnknownMessage) MessageType() MessageType {
 	return Unknown
+}
+
+// CardBodyElement 卡片消息结构体
+type CardBodyElement struct {
+	Type       string        `json:"type" binding:"required"`       // 类型，固定填写 card
+	Components []interface{} `json:"components" binding:"required"` // 内容组件
+	Theme      string        `json:"theme" binding:"required"`      // 卡片风格，grey，red，orange，yellow ，green，indigo，blue，purple，black，default
+	Title      string        `json:"title,omitempty"`               // 卡片标题，只支持普通文本，可以为空字符串
 }
