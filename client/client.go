@@ -42,6 +42,9 @@ type (
 	ChannelAPI interface {
 		GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error)  // GetChannelList 取频道列表
 		GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error) // GetChannelInfo 取频道信息
+		CreateChannel(ctx context.Context, req *model.CreateChannelReq) (*model.CreateChannelRsp, error)    // CreateChannel 创建频道
+		EditChannel(ctx context.Context, req *model.EditChannelReq) (bool, error)                           // EditChannel 编辑频道
+		RemoveChannel(ctx context.Context, req *model.RemoveChannelReq) (bool, error)                       // RemoveChannel 编辑频道
 	}
 
 	// MessageAPI message API interface

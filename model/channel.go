@@ -2,14 +2,24 @@ package model
 
 import "errors"
 
+type ChannelType int
+
+const (
+	TextChannel    ChannelType = 1
+	VoiceChannel   ChannelType = 2
+	ArticleChannel ChannelType = 4
+	LinkChannel    ChannelType = 5
+	ResChannel     ChannelType = 6
+)
+
 // ChannelElement 取频道列表 list element
 type ChannelElement struct {
-	ChannelId   string `json:"channelId"`   // 频道号
-	ChannelName string `json:"channelName"` // 频道名称
-	ChannelType int    `json:"channelType"` // 频道类型，1：文字频道，2：语音频道，4：帖子频道，5：链接频道，6：资料频道
-	DefaultFlag int    `json:"defaultFlag"` // 默认频道标识，0：否，1：是
-	GroupId     string `json:"groupId"`     // 分组ID
-	GroupName   string `json:"groupName"`   // 分组名称
+	ChannelId   string      `json:"channelId"`   // 频道号
+	ChannelName string      `json:"channelName"` // 频道名称
+	ChannelType ChannelType `json:"channelType"` // 频道类型，1：文字频道，2：语音频道，4：帖子频道，5：链接频道，6：资料频道
+	DefaultFlag int         `json:"defaultFlag"` // 默认频道标识，0：否，1：是
+	GroupId     string      `json:"groupId"`     // 分组ID
+	GroupName   string      `json:"groupName"`   // 分组名称
 }
 
 // GetChannelListReq 取频道列表 request
@@ -39,6 +49,63 @@ type (
 )
 
 func (p *GetChannelInfoReq) ValidParams() error {
+	if p.ChannelId == "" {
+		return errors.New("invalid parameter ChannelId (empty detected)")
+	}
+	return nil
+}
+
+type (
+	// CreateChannelReq 创建频道 request
+	CreateChannelReq struct {
+		IslandId    string      `json:"islandId" binding:"required"`    // 群号
+		ChannelName string      `json:"channelName"`                    // 频道名称，非必传，不传时默认使用名称`新的频道`，不能大于32个字符或16个汉字
+		ChannelType ChannelType `json:"channelType" binding:"required"` // 频道类型，1：文字频道，2：语音频道（默认自由模式），4：帖子频道（默认详细模式）
+	}
+
+	// CreateChannelRsp 创建频道 response
+	CreateChannelRsp struct {
+		ChannelId string `json:"channelId"` // 频道ID
+	}
+)
+
+func (p *CreateChannelReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	if p.ChannelType == 0 {
+		return errors.New("invalid parameter ChannelType (zero detected)")
+	}
+	return nil
+}
+
+// EditChannelReq 编辑频道 request
+type EditChannelReq struct {
+	IslandId    string `json:"islandId" binding:"required"`  // 群号
+	ChannelId   string `json:"channelId" binding:"required"` // 频道号
+	ChannelName string `json:"channelName"`
+}
+
+func (p *EditChannelReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	if p.ChannelId == "" {
+		return errors.New("invalid parameter ChannelId (empty detected)")
+	}
+	return nil
+}
+
+// RemoveChannelReq 删除频道 request
+type RemoveChannelReq struct {
+	IslandId  string `json:"islandId" binding:"required"`  // 群号
+	ChannelId string `json:"channelId" binding:"required"` // 频道号
+}
+
+func (p *RemoveChannelReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
 	if p.ChannelId == "" {
 		return errors.New("invalid parameter ChannelId (empty detected)")
 	}

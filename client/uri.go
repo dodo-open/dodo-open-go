@@ -17,8 +17,11 @@ const (
 	getIslandBanListUri       uri = "/api/v1/island/ban/list"        // 获取群封禁名单
 
 	// 频道 API
-	getChannelListUri uri = "/api/v1/channel/list" // 取频道列表
-	getChannelInfoUri uri = "/api/v1/channel/info" // 取频道信息
+	getChannelListUri uri = "/api/v1/channel/list"   // 取频道列表
+	getChannelInfoUri uri = "/api/v1/channel/info"   // 取频道信息
+	createChannelUri  uri = "/api/v1/channel/add"    // 创建频道
+	editChannelUri    uri = "/api/v1/channel/edit"   // 编辑频道
+	removeChannelUri  uri = "/api/v1/channel/remove" // 删除频道
 
 	// 文字频道 API
 	sendChannelMessageUri     uri = "/api/v1/channel/message/send"            // 发送频道消息
