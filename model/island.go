@@ -35,3 +35,79 @@ type GetIslandInfoRsp struct {
 
 	Description string `json:"description"` // 群描述
 }
+
+// GetIslandLevelRankListReq 获取群等级排行榜 request
+type GetIslandLevelRankListReq struct {
+	IslandId string `json:"islandId" binding:"required"` // 群号
+}
+
+func (p *GetIslandLevelRankListReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	return nil
+}
+
+// GetIslandLevelRankElement 获取群等级排行榜 list element
+type GetIslandLevelRankElement struct {
+	DodoId   string `json:"dodoId"`   // DoDo号
+	NickName string `json:"nickName"` // 群昵称
+	Level    int    `json:"level"`    // 等级
+	Rank     int    `json:"rank"`     // 排名，返回前100名
+}
+
+// GetIslandMuteListReq 获取群禁言名单 request
+type GetIslandMuteListReq struct {
+	IslandId string `json:"islandId" binding:"required"` // 群号
+	PageSize int    `json:"pageSize" binding:"required"` // 页大小，最大100
+	MaxId    uint64 `json:"maxId" binding:"required"`    // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
+}
+
+func (p *GetIslandMuteListReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	if p.PageSize <= 0 {
+		return errors.New("invalid parameter PageSize (PageSize must not less than 0)")
+	}
+	return nil
+}
+
+// GetIslandMuteListRsp 获取群禁言名单 response
+type GetIslandMuteListRsp struct {
+	MaxId uint64                  `json:"maxId"` // 最大 ID 值
+	List  []*GetIslandMuteElement `json:"list"`  // 数据列表
+}
+
+// GetIslandMuteElement 获取群禁言名单 list element
+type GetIslandMuteElement struct {
+	DodoId string `json:"dodoId"` // DoDo号
+}
+
+// GetIslandBanListReq 获取群封禁名单 request
+type GetIslandBanListReq struct {
+	IslandId string `json:"islandId" binding:"required"` // 群号
+	PageSize int    `json:"pageSize" binding:"required"` // 页大小，最大100
+	MaxId    uint64 `json:"maxId" binding:"required"`    // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
+}
+
+func (p *GetIslandBanListReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	if p.PageSize <= 0 {
+		return errors.New("invalid parameter PageSize (PageSize must not less than 0)")
+	}
+	return nil
+}
+
+// GetIslandBanListRsp 获取群封禁名单 response
+type GetIslandBanListRsp struct {
+	MaxId uint64                 `json:"maxId"` // 最大 ID 值
+	List  []*GetIslandBanElement `json:"list"`  // 数据列表
+}
+
+// GetIslandBanElement 获取群封禁名单 list element
+type GetIslandBanElement struct {
+	DodoId string `json:"dodoId"` // DoDo号
+}

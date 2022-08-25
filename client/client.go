@@ -31,8 +31,11 @@ type (
 
 	// IslandAPI island API interface
 	IslandAPI interface {
-		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)                               // GetIslandList 取群列表
-		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error) // GetIslandInfo 取群信息
+		GetIslandList(ctx context.Context) ([]*model.IslandElement, error)                                                            // GetIslandList 取群列表
+		GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error)                              // GetIslandInfo 取群信息
+		GetIslandLevelRankList(ctx context.Context, req *model.GetIslandLevelRankListReq) ([]*model.GetIslandLevelRankElement, error) // GetIslandLevelRankList 获取群等级排行榜
+		GetIslandMuteList(ctx context.Context, req *model.GetIslandMuteListReq) (*model.GetIslandMuteListRsp, error)                  // GetIslandMuteList 获取群禁言名单
+		GetIslandBanList(ctx context.Context, req *model.GetIslandBanListReq) (*model.GetIslandBanListRsp, error)                     // GetIslandBanList 获取群封禁名单
 	}
 
 	// ChannelAPI channel basic API interface
