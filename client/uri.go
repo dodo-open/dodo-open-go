@@ -39,12 +39,17 @@ const (
 	removeRoleMemberUri uri = "/api/v1/role/member/remove" // 身份组移除成员
 
 	// 成员 API
-	getMemberListUri         uri = "/api/v1/member/list"             // 取成员列表
-	getMemberInfoUri         uri = "/api/v1/member/info"             // 取成员信息
-	getMemberRoleListUri     uri = "/api/v1/member/role/list"        // 取成员身份组列表
-	setMemberNickUri         uri = "/api/v1/member/nick/set"         // 设置成员昵称
-	setMemberSilenceUri      uri = "/api/v1/member/ban/set"          // 设置成员禁言
-	getMemberInviteInfo      uri = "/api/v1/member/invitation/info"  // 取成员邀请信息
+	getMemberListUri     uri = "/api/v1/member/list"            // 获取成员列表
+	getMemberInfoUri     uri = "/api/v1/member/info"            // 获取成员信息
+	getMemberRoleListUri uri = "/api/v1/member/role/list"       // 获取成员身份组列表
+	getMemberInviteInfo  uri = "/api/v1/member/invitation/info" // 获取成员邀请信息
+	setMemberNickUri     uri = "/api/v1/member/nickname/edit"   // 编辑成员群昵称
+	muteMemberUri        uri = "/api/v1/member/mute/add"        // 禁言成员
+	unmuteMemberUri      uri = "/api/v1/member/mute/remove"     // 取消成员禁言
+	banMemberUri         uri = "/api/v1/member/ban/set"         // 永久封禁成员
+	unbanMemberUri       uri = "/api/v1/member/ban/remove"      // 取消成员永久封禁
+
+	// 数字藏品 API
 	getMemberUPowerchainInfo uri = "/api/v1/member/upowerchain/info" // 取成员高能链数字藏品信息
 
 	// 私信 API

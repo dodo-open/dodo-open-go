@@ -17,6 +17,7 @@ type (
 		MessageAPI
 		RoleAPI
 		MemberAPI
+		DigitalAssetAPI
 		DirectMessageAPI
 		ResourceUploadAPI
 		WebsocketAPI
@@ -68,12 +69,19 @@ type (
 
 	// MemberAPI member API interface
 	MemberAPI interface {
-		GetMemberList(ctx context.Context, req *model.GetMemberListReq) (*model.GetMemberListRsp, error)                                  // GetMemberList 取成员列表
-		GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error)                                  // GetMemberInfo 取成员信息
-		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)                             // GetMemberRoleList 取成员身份组列表
-		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)                                                     // SetMemberNick 设置成员昵称
-		SetMemberSilence(ctx context.Context, req *model.SetMemberSilenceReq) (bool, error)                                               // SetMemberBan 设置成员禁言，即不能在频道发布内容
-		GetMemberInviteInfo(ctx context.Context, req *model.GetMemberInviteInfoReq) (*model.GetMemberInviteInfoRsp, error)                // GetMemberInvitationInfo 取成员邀请信息
+		GetMemberList(ctx context.Context, req *model.GetMemberListReq) (*model.GetMemberListRsp, error)                   // GetMemberList 获取成员列表
+		GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error)                   // GetMemberInfo 取成员信息
+		GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error)              // GetMemberRoleList 取成员身份组列表
+		GetMemberInviteInfo(ctx context.Context, req *model.GetMemberInviteInfoReq) (*model.GetMemberInviteInfoRsp, error) // GetMemberInvitationInfo 取成员邀请信息
+		SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error)                                      // SetMemberNick 设置成员昵称
+		MuteMember(ctx context.Context, req *model.MuteMemberReq) (bool, error)                                            // MuteMember 禁言成员
+		UnmuteMember(ctx context.Context, req *model.UnmuteMemberReq) (bool, error)                                        // UnmuteMember 取消禁言成员
+		BanMember(ctx context.Context, req *model.BanMemberReq) (bool, error)                                              // BanMember 封禁成员
+		UnbanMember(ctx context.Context, req *model.UnbanMemberReq) (bool, error)                                          // UnbanMember 取消封禁成员
+	}
+
+	// DigitalAssetAPI digital asset API interface
+	DigitalAssetAPI interface {
 		GetMemberUPowerchainInfo(ctx context.Context, req *model.GetMemberUPowerchainInfoReq) (*model.GetMemberUPowerchainInfoRsp, error) // GetMemberUPowerchainInfo 取成员高能链数字藏品信息
 	}
 
