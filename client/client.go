@@ -59,8 +59,11 @@ type (
 	// RoleAPI role API interface
 	RoleAPI interface {
 		GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]*model.RoleElement, error) // GetRoleList 取身份组列表
+		CreateRole(ctx context.Context, req *model.CreateRoleReq) (*model.CreateRoleRsp, error)   // CreateRole 创建身份组
+		EditRole(ctx context.Context, req *model.EditRoleReq) (bool, error)                       // EditRole 编辑身份组
+		RemoveRole(ctx context.Context, req *model.RemoveRoleReq) (bool, error)                   // RemoveRole 删除身份组
 		AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)             // SetRoleMemberAdd 身份组新增成员
-		RemoveRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error)          // SetRoleMemberRemove 身份组移除成员
+		RemoveRoleMember(ctx context.Context, req *model.RemoveRoleMemberReq) (bool, error)       // SetRoleMemberRemove 身份组移除成员
 	}
 
 	// MemberAPI member API interface

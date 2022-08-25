@@ -32,6 +32,9 @@ const (
 
 	// 身份组 API
 	getRoleListUri      uri = "/api/v1/role/list"          // 取身份组列表
+	createRoleUri       uri = "/api/v1/role/add"           // 创建身份组
+	editRoleUri         uri = "/api/v1/role/edit"          // 编辑身份组
+	removeRoleUri       uri = "/api/v1/role/remove"        // 删除身份组
 	addRoleMemberUri    uri = "/api/v1/role/member/add"    // 身份组新增成员
 	removeRoleMemberUri uri = "/api/v1/role/member/remove" // 身份组移除成员
 

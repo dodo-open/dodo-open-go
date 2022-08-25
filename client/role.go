@@ -26,6 +26,60 @@ func (c *client) GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]
 	return list, nil
 }
 
+// CreateRole 创建身份组
+func (c *client) CreateRole(ctx context.Context, req *model.CreateRoleReq) (*model.CreateRoleRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(createRoleUri))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.CreateRoleRsp{}
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// EditRole 编辑身份组
+func (c *client) EditRole(ctx context.Context, req *model.EditRoleReq) (bool, error) {
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(editRoleUri))
+	if err != nil {
+		return false, err
+	}
+
+	result := c.unmarshalResult(resp)
+	if result.Status != 0 {
+		return false, errs.New(result.Status, result.Message)
+	}
+	return true, nil
+}
+
+// RemoveRole 删除身份组
+func (c *client) RemoveRole(ctx context.Context, req *model.RemoveRoleReq) (bool, error) {
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(removeRoleUri))
+	if err != nil {
+		return false, err
+	}
+
+	result := c.unmarshalResult(resp)
+	if result.Status != 0 {
+		return false, errs.New(result.Status, result.Message)
+	}
+	return true, nil
+}
+
 // AddRoleMember 身份组新增成员
 func (c *client) AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
@@ -45,7 +99,7 @@ func (c *client) AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq)
 }
 
 // RemoveRoleMember 身份组移除成员
-func (c *client) RemoveRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error) {
+func (c *client) RemoveRoleMember(ctx context.Context, req *model.RemoveRoleMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
 	}
