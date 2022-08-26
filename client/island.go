@@ -6,7 +6,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// GetIslandList 取群列表
+// GetIslandList 获取群列表
 func (c *client) GetIslandList(ctx context.Context) ([]*model.IslandElement, error) {
 	list := make([]*model.IslandElement, 0)
 
@@ -21,7 +21,7 @@ func (c *client) GetIslandList(ctx context.Context) ([]*model.IslandElement, err
 	return list, nil
 }
 
-// GetIslandInfo 取群信息
+// GetIslandInfo 获取群信息
 func (c *client) GetIslandInfo(ctx context.Context, req *model.GetIslandInfoReq) (*model.GetIslandInfoRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err

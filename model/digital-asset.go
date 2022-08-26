@@ -3,6 +3,40 @@ package model
 import "errors"
 
 type (
+	// GetMemberNFTStatusReq 获取成员数字藏品判断 request
+	GetMemberNFTStatusReq struct {
+		IslandId string `json:"islandId" binding:"required"` // 群号
+		DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
+		Platform string `json:"platform" binding:"required"` // 数藏平台，upower：高能链，ubanquan：优版权，metamask：Opensea
+		Issuer   string `json:"issuer,omitempty"`            // 发行方，若填写了系列，则发行方必填
+		Series   string `json:"series,omitempty"`            // 系列
+	}
+
+	// GetMemberNFTStatusRsp 获取成员数字藏品判断 response
+	GetMemberNFTStatusRsp struct {
+		IsBandPlatform int `json:"isBandPlatform"` // 是否已绑定该数藏平台，0：否，1：是
+		IsHaveIssuer   int `json:"isHaveIssuer"`   // 是否拥有该发行方的NFT，0：否，1：是
+		IsHaveSeries   int `json:"isHaveSeries"`   // 是否拥有该系列的NFT，0：否，1：是
+	}
+)
+
+func (p *GetMemberNFTStatusReq) ValidParams() error {
+	if p.IslandId == "" {
+		return errors.New("invalid parameter IslandId (empty detected)")
+	}
+	if p.DodoId == "" {
+		return errors.New("invalid parameter DodoId (empty detected)")
+	}
+	if p.Platform == "" {
+		return errors.New("invalid parameter Platform (empty detected)")
+	}
+	if p.Series != "" && p.Issuer == "" {
+		return errors.New("invalid parameter Issuer (empty detected while presents Series)")
+	}
+	return nil
+}
+
+type (
 	// GetMemberUPowerchainInfoReq 取成员高能链数字藏品信息 request
 	GetMemberUPowerchainInfoReq struct {
 		IslandId string `json:"islandId" binding:"required"` // 群号

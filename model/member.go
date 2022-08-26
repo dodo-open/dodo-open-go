@@ -44,13 +44,13 @@ func (p *GetMemberListReq) ValidParams() error {
 }
 
 type (
-	// GetMemberInfoReq 取成员信息 request
+	// GetMemberInfoReq 获取成员信息 request
 	GetMemberInfoReq struct {
 		IslandId string `json:"islandId" binding:"required"` // 群号
 		DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
 	}
 
-	// GetMemberInfoRsp 取成员信息 response
+	// GetMemberInfoRsp 获取成员信息 response
 	GetMemberInfoRsp struct {
 		MemberElement
 		IslandId string `json:"islandId"` // 群号
@@ -67,7 +67,7 @@ func (p *GetMemberInfoReq) ValidParams() error {
 	return nil
 }
 
-// GetMemberRoleListReq 取成员身份组列表 request
+// GetMemberRoleListReq 获取成员身份组列表 request
 type GetMemberRoleListReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 	DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
@@ -83,7 +83,7 @@ func (p *GetMemberRoleListReq) ValidParams() error {
 	return nil
 }
 
-// SetMemberNickReq 设置成员昵称 request
+// SetMemberNickReq 编辑成员群昵称 request
 type SetMemberNickReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 	DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
@@ -140,7 +140,7 @@ func (p *UnmuteMemberReq) ValidParams() error {
 	return nil
 }
 
-// BanMemberReq 封禁成员 request
+// BanMemberReq 永久封禁成员 request
 type BanMemberReq struct {
 	IslandId        string `json:"islandId" binding:"required"` // 群号
 	DodoId          string `json:"dodoId" binding:"required"`   // DoDo号
@@ -158,7 +158,7 @@ func (p *BanMemberReq) ValidParams() error {
 	return nil
 }
 
-// UnbanMemberReq 取消封禁成员 request
+// UnbanMemberReq 取消成员永久封禁 request
 type UnbanMemberReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 	DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
@@ -175,13 +175,13 @@ func (p *UnbanMemberReq) ValidParams() error {
 }
 
 type (
-	// GetMemberInviteInfoReq 取成员邀请信息 request
+	// GetMemberInviteInfoReq 获取成员邀请信息 request
 	GetMemberInviteInfoReq struct {
 		IslandId string `json:"islandId" binding:"required"` // 群号
 		DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
 	}
 
-	// GetMemberInviteInfoRsp 取成员邀请信息 response
+	// GetMemberInviteInfoRsp 获取成员邀请信息 response
 	GetMemberInviteInfoRsp struct {
 		DodoId          string `json:"dodoId"`          // DoDo号
 		NickName        string `json:"nickName"`        // 在群昵称

@@ -2,7 +2,7 @@ package model
 
 import "errors"
 
-// GetBotInfoRsp 取机器人信息 response
+// GetBotInfoRsp 获取机器人信息 response
 type GetBotInfoRsp struct {
 	ClientId  string `json:"clientId"`  // 机器人唯一标识
 	DodoId    string `json:"dodoId"`    // 机器人DoDo号
@@ -10,7 +10,7 @@ type GetBotInfoRsp struct {
 	AvatarUrl string `json:"avatarUrl"` // 机器人图标
 }
 
-// SetBotLeaveIslandReq 置机器人群退出 request
+// SetBotLeaveIslandReq 机器人退群 request
 type SetBotLeaveIslandReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// SendDirectMessage 发送私聊消息
+// SendDirectMessage 发送私信
 func (c *client) SendDirectMessage(ctx context.Context, req *model.SendDirectMessageReq) (*model.SendDirectMessageRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err

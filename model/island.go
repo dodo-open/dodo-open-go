@@ -2,11 +2,11 @@ package model
 
 import "errors"
 
-// GetIslandListReq 取群列表 request
+// GetIslandListReq 获取群列表 request
 type GetIslandListReq struct {
 }
 
-// IslandElement 取群列表 list element
+// IslandElement 获取群列表 list element
 type IslandElement struct {
 	IslandId          string `json:"islandId"`          // 群号
 	IslandName        string `json:"islandName"`        // 群名称
@@ -17,7 +17,7 @@ type IslandElement struct {
 	SystemChannelId   string `json:"systemChannelId"`   // 系统消息频道
 }
 
-// GetIslandInfoReq 取群信息 request
+// GetIslandInfoReq 获取群信息 request
 type GetIslandInfoReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 }
@@ -29,7 +29,7 @@ func (p *GetIslandInfoReq) ValidParams() error {
 	return nil
 }
 
-// GetIslandInfoRsp 取群信息 response
+// GetIslandInfoRsp 获取群信息 response
 type GetIslandInfoRsp struct {
 	IslandElement
 

@@ -7,7 +7,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// GetBotInfo 取机器人信息
+// GetBotInfo 获取机器人信息
 func (c *client) GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error) {
 	resp, err := c.request(ctx).Post(c.getApi(getBotInfoUri))
 	if err != nil {
@@ -21,7 +21,7 @@ func (c *client) GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error) {
 	return result, nil
 }
 
-// SetBotIslandLeave 置机器人群退出
+// SetBotIslandLeave 机器人退群
 func (c *client) SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err

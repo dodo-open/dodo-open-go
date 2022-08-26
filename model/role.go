@@ -2,7 +2,7 @@ package model
 
 import "errors"
 
-// GetRoleListReq 取身份组列表 request
+// GetRoleListReq 获取身份组列表 request
 type GetRoleListReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 }
@@ -14,7 +14,7 @@ func (p *GetRoleListReq) ValidParams() error {
 	return nil
 }
 
-// RoleElement 取身份组列表 list element
+// RoleElement 身份组数据对象 list element
 type RoleElement struct {
 	RoleId     string `json:"roleId"`     // 身份组ID
 	RoleName   string `json:"roleName"`   // 身份组名称
@@ -82,7 +82,7 @@ func (p *RemoveRoleReq) ValidParams() error {
 	return nil
 }
 
-// AddRoleMemberReq 身份组新增成员 request
+// AddRoleMemberReq 赋予成员身份组 request
 type AddRoleMemberReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 	DodoId   string `json:"dodoId" binding:"required"`   // DoDo号
@@ -102,7 +102,7 @@ func (p *AddRoleMemberReq) ValidParams() error {
 	return nil
 }
 
-// RemoveRoleMemberReq 身份组移除成员 request
+// RemoveRoleMemberReq 取消成员身份组 request
 type RemoveRoleMemberReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 	DodoId   string `json:"dodoId" binding:"required"`   // DoDo号

@@ -2,7 +2,7 @@ package model
 
 import "errors"
 
-// SendDirectMessageReq 发送私聊消息 request
+// SendDirectMessageReq 发送私信 request
 type SendDirectMessageReq struct {
 	DodoId      string       `json:"dodoId" binding:"required"`      // DoDo号
 	MessageType MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
@@ -19,7 +19,7 @@ func (p *SendDirectMessageReq) ValidParams() error {
 	return nil
 }
 
-// SendDirectMessageRsp 发送私聊消息 response
+// SendDirectMessageRsp 发送私信 response
 type SendDirectMessageRsp struct {
 	MessageId string `json:"messageId"` // 消息 ID
 }

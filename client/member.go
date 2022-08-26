@@ -25,7 +25,7 @@ func (c *client) GetMemberList(ctx context.Context, req *model.GetMemberListReq)
 	return result, nil
 }
 
-// GetMemberInfo 取成员信息
+// GetMemberInfo 获取成员信息
 func (c *client) GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq) (*model.GetMemberInfoRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (c *client) GetMemberInfo(ctx context.Context, req *model.GetMemberInfoReq)
 	return result, nil
 }
 
-// GetMemberRoleList 取成员身份组列表
+// GetMemberRoleList 获取成员身份组列表
 func (c *client) GetMemberRoleList(ctx context.Context, req *model.GetMemberRoleListReq) ([]*model.RoleElement, error) {
 	list := make([]*model.RoleElement, 0)
 
@@ -62,7 +62,7 @@ func (c *client) GetMemberRoleList(ctx context.Context, req *model.GetMemberRole
 	return list, nil
 }
 
-// GetMemberInviteInfo 取成员邀请信息
+// GetMemberInviteInfo 获取成员邀请信息
 func (c *client) GetMemberInviteInfo(ctx context.Context, req *model.GetMemberInviteInfoReq) (*model.GetMemberInviteInfoRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (c *client) GetMemberInviteInfo(ctx context.Context, req *model.GetMemberIn
 	return result, nil
 }
 
-// SetMemberNick 设置成员昵称
+// SetMemberNick 编辑成员群昵称
 func (c *client) SetMemberNick(ctx context.Context, req *model.SetMemberNickReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -116,7 +116,7 @@ func (c *client) MuteMember(ctx context.Context, req *model.MuteMemberReq) (bool
 	return true, nil
 }
 
-// UnmuteMember 取消禁言成员
+// UnmuteMember 取消成员禁言
 func (c *client) UnmuteMember(ctx context.Context, req *model.UnmuteMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -134,7 +134,7 @@ func (c *client) UnmuteMember(ctx context.Context, req *model.UnmuteMemberReq) (
 	return true, nil
 }
 
-// BanMember 封禁成员
+// BanMember 永久封禁成员
 func (c *client) BanMember(ctx context.Context, req *model.BanMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -152,7 +152,7 @@ func (c *client) BanMember(ctx context.Context, req *model.BanMemberReq) (bool, 
 	return true, nil
 }
 
-// UnbanMember 取消封禁成员
+// UnbanMember 取消成员永久封禁
 func (c *client) UnbanMember(ctx context.Context, req *model.UnbanMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err

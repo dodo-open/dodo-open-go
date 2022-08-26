@@ -7,7 +7,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// GetRoleList 取身份组列表
+// GetRoleList 获取身份组列表
 func (c *client) GetRoleList(ctx context.Context, req *model.GetRoleListReq) ([]*model.RoleElement, error) {
 	list := make([]*model.RoleElement, 0)
 
@@ -80,7 +80,7 @@ func (c *client) RemoveRole(ctx context.Context, req *model.RemoveRoleReq) (bool
 	return true, nil
 }
 
-// AddRoleMember 身份组新增成员
+// AddRoleMember 赋予成员身份组
 func (c *client) AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -98,7 +98,7 @@ func (c *client) AddRoleMember(ctx context.Context, req *model.AddRoleMemberReq)
 	return true, nil
 }
 
-// RemoveRoleMember 身份组移除成员
+// RemoveRoleMember 取消成员身份组
 func (c *client) RemoveRoleMember(ctx context.Context, req *model.RemoveRoleMemberReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err

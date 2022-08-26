@@ -7,7 +7,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// GetChannelList 取频道列表
+// GetChannelList 获取频道列表
 func (c *client) GetChannelList(ctx context.Context, req *model.GetChannelListReq) ([]*model.ChannelElement, error) {
 	list := make([]*model.ChannelElement, 0)
 
@@ -26,7 +26,7 @@ func (c *client) GetChannelList(ctx context.Context, req *model.GetChannelListRe
 	return list, nil
 }
 
-// GetChannelInfo 取频道信息
+// GetChannelInfo 获取频道信息
 func (c *client) GetChannelInfo(ctx context.Context, req *model.GetChannelInfoReq) (*model.GetChannelInfoRsp, error) {
 	if err := req.ValidParams(); err != nil {
 		return nil, err

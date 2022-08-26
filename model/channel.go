@@ -12,7 +12,7 @@ const (
 	ResChannel     ChannelType = 6
 )
 
-// ChannelElement 取频道列表 list element
+// ChannelElement 获取频道列表 list element
 type ChannelElement struct {
 	ChannelId   string      `json:"channelId"`   // 频道号
 	ChannelName string      `json:"channelName"` // 频道名称
@@ -22,7 +22,7 @@ type ChannelElement struct {
 	GroupName   string      `json:"groupName"`   // 分组名称
 }
 
-// GetChannelListReq 取频道列表 request
+// GetChannelListReq 获取频道列表 request
 type GetChannelListReq struct {
 	IslandId string `json:"islandId" binding:"required"` // 群号
 }
@@ -35,12 +35,12 @@ func (p *GetChannelListReq) ValidParams() error {
 }
 
 type (
-	// GetChannelInfoReq 取频道信息 request
+	// GetChannelInfoReq 获取频道信息 request
 	GetChannelInfoReq struct {
 		ChannelId string `json:"channelId" binding:"required"` // 频道号
 	}
 
-	// GetChannelInfoRsp 取频道信息 response
+	// GetChannelInfoRsp 获取频道信息 response
 	GetChannelInfoRsp struct {
 		ChannelElement
 
@@ -113,7 +113,7 @@ func (p *RemoveChannelReq) ValidParams() error {
 }
 
 type (
-	// SendChannelMessageReq 发送频道消息 request
+	// SendChannelMessageReq 发送消息 request
 	SendChannelMessageReq struct {
 		ChannelId           string       `json:"channelId" binding:"required"`   // 频道号
 		MessageType         MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
@@ -122,7 +122,7 @@ type (
 		DodoId              string       `json:"dodoId,omitempty"`               // DoDo号，非必传，如果传了，则给该成员发送频道私信
 	}
 
-	// SendChannelMessageRsp 发送频道消息 response
+	// SendChannelMessageRsp 发送消息 response
 	SendChannelMessageRsp struct {
 		MessageId string `json:"messageId"` // 消息 ID
 	}
@@ -139,14 +139,14 @@ func (p *SendChannelMessageReq) ValidParams() error {
 }
 
 type (
-	// EditChannelMessageReq 编辑频道消息 request
+	// EditChannelMessageReq 编辑消息 request
 	EditChannelMessageReq struct {
 		MessageId   string       `json:"messageId" binding:"required"`   // 欲编辑的消息 ID
 		MessageType MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 		MessageBody IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 	}
 
-	// EditChannelMessageRsp 发送频道消息 response
+	// EditChannelMessageRsp 编辑消息 response
 	EditChannelMessageRsp struct {
 		MessageId string `json:"messageId"` // 消息 ID
 	}
@@ -162,7 +162,7 @@ func (p *EditChannelMessageReq) ValidParams() error {
 	return nil
 }
 
-// WithdrawChannelMessageReq 撤回频道消息 request
+// WithdrawChannelMessageReq 撤回消息 request
 type WithdrawChannelMessageReq struct {
 	MessageId string `json:"messageId" binding:"required"` // 消息ID
 	Reason    string `json:"reason,omitempty"`             // 撤回原因
@@ -175,7 +175,7 @@ func (p *WithdrawChannelMessageReq) ValidParams() error {
 	return nil
 }
 
-// AddChannelMessageReactionReq 新增文字频道消息反应 request
+// AddChannelMessageReactionReq 添加表情反应 request
 type AddChannelMessageReactionReq struct {
 	MessageId string         `json:"messageId" binding:"required"` // 消息 ID
 	Emoji     *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情
@@ -194,7 +194,7 @@ func (p *AddChannelMessageReactionReq) ValidParams() error {
 	return nil
 }
 
-// RemChannelMessageReactionReq 移除文字频道消息反应 request
+// RemChannelMessageReactionReq 取消表情反应 request
 type RemChannelMessageReactionReq struct {
 	MessageId string         `json:"messageId" binding:"required"` // 消息 ID
 	Emoji     *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情

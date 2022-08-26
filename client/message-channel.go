@@ -7,7 +7,7 @@ import (
 	"github.com/dodo-open/dodo-open-go/tools"
 )
 
-// SendChannelMessage 发送频道消息
+// SendChannelMessage 发送消息
 // model.SendChannelMessageReq 对象中的 MessageType 参数会在SDK中重新赋值，所以无需开发者关注
 func (c *client) SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error) {
 	if err := req.ValidParams(); err != nil {
@@ -27,7 +27,7 @@ func (c *client) SendChannelMessage(ctx context.Context, req *model.SendChannelM
 	return result, nil
 }
 
-// EditChannelMessage 编辑频道消息
+// EditChannelMessage 编辑消息
 // model.EditChannelMessageReq 对象中的 MessageType 参数会在SDK中重新赋值，所以无需开发者关注
 func (c *client) EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error) {
 	if err := req.ValidParams(); err != nil {
@@ -47,7 +47,7 @@ func (c *client) EditChannelMessage(ctx context.Context, req *model.EditChannelM
 	return result, nil
 }
 
-// WithdrawChannelMessage 撤回频道消息
+// WithdrawChannelMessage 撤回消息
 func (c *client) WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -65,7 +65,7 @@ func (c *client) WithdrawChannelMessage(ctx context.Context, req *model.Withdraw
 	return true, nil
 }
 
-// AddChannelMessageReaction 添加频道消息反应
+// AddChannelMessageReaction 添加表情反应
 func (c *client) AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
@@ -83,7 +83,7 @@ func (c *client) AddChannelMessageReaction(ctx context.Context, req *model.AddCh
 	return true, nil
 }
 
-// RemChannelMessageReaction 移除文字频道消息反应
+// RemChannelMessageReaction 取消表情反应
 func (c *client) RemChannelMessageReaction(ctx context.Context, req *model.RemChannelMessageReactionReq) (bool, error) {
 	if err := req.ValidParams(); err != nil {
 		return false, err
