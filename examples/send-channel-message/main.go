@@ -73,4 +73,86 @@ func main() {
 		return
 	}
 	fmt.Printf("回报消息 ID：%v\n", sendImageResp.MessageId)
+
+	// ================================================================================
+
+	// 举例：发送卡片消息
+	components := make([]interface{}, 0)
+
+	// 插入一个标题
+	type headerText struct {
+		Type    string `json:"type"`
+		Content string `json:"content"`
+	}
+	type header struct {
+		Type string      `json:"type"`
+		Text *headerText `json:"text"`
+	}
+	components = append(components, &header{
+		Type: "header",
+		Text: &headerText{Type: "plain-text", Content: "一个标题字号的文本内容"},
+	})
+
+	// 插入一段文本
+	type sectionText struct {
+		Type    string `json:"type"`
+		Content string `json:"content"`
+	}
+	type section struct {
+		Type string       `json:"type"`
+		Text *sectionText `json:"text"`
+	}
+	components = append(components, &section{
+		Type: "section",
+		Text: &sectionText{Type: "dodo-md", Content: "一长段文本字号的文本内容，支持Markdown，最大支持字符数2000。"},
+	})
+
+	// 插入一段多栏文本
+	type sectionParagraphField struct {
+		Type    string `json:"type"`
+		Content string `json:"content"`
+	}
+	type sectionParagraphText struct {
+		Type   string                   `json:"type"`
+		Cols   int                      `json:"cols"`
+		Fields []*sectionParagraphField `json:"fields"`
+	}
+	type sectionParagraph struct {
+		Type string                `json:"type"`
+		Text *sectionParagraphText `json:"text"`
+	}
+	paragraphFields := make([]*sectionParagraphField, 0)
+	paragraphFields = append(paragraphFields, &sectionParagraphField{Type: "dodo-md", Content: "第一栏\n内容"})
+	paragraphFields = append(paragraphFields, &sectionParagraphField{Type: "dodo-md", Content: "第二栏\n内容"})
+	components = append(components, &sectionParagraph{
+		Type: "section",
+		Text: &sectionParagraphText{Type: "paragraph", Cols: len(paragraphFields), Fields: paragraphFields},
+	})
+
+	sendCardResp, err := instance.SendChannelMessage(context.Background(), &model.SendChannelMessageReq{
+		ChannelId: "171204",
+		MessageBody: &model.CardMessage{
+			Content: "这是一个附加文本",
+			Card: &model.CardBodyElement{
+				Type:       "card",
+				Components: components,
+				Theme:      "orange",
+				Title:      "这是一个卡片标题",
+			},
+		},
+	})
+	if err != nil {
+		fmt.Printf("发送消息失败：%v\n", err)
+		return
+	}
+	fmt.Printf("回报消息 ID：%v\n", sendCardResp.MessageId)
+}
+
+type T struct {
+	Type   string `json:"type"`
+	Cols   int    `json:"cols"`
+	Fields []struct {
+		Type    string `json:"type"`
+		Content string `json:"content"`
+	} `json:"fields"`
 }
