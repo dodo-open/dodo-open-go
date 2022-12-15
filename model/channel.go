@@ -24,12 +24,12 @@ type ChannelElement struct {
 
 // GetChannelListReq 获取频道列表 request
 type GetChannelListReq struct {
-	IslandId string `json:"islandId" binding:"required"` // 群号
+	IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
 }
 
 func (p *GetChannelListReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	return nil
 }
@@ -44,7 +44,7 @@ type (
 	GetChannelInfoRsp struct {
 		ChannelElement
 
-		IslandId string `json:"islandId"` // 群号
+		IslandSourceId string `json:"islandSourceId"` // 群ID
 	}
 )
 
@@ -58,9 +58,9 @@ func (p *GetChannelInfoReq) ValidParams() error {
 type (
 	// CreateChannelReq 创建频道 request
 	CreateChannelReq struct {
-		IslandId    string      `json:"islandId" binding:"required"`    // 群号
-		ChannelName string      `json:"channelName"`                    // 频道名称，非必传，不传时默认使用名称`新的频道`，不能大于32个字符或16个汉字
-		ChannelType ChannelType `json:"channelType" binding:"required"` // 频道类型，1：文字频道，2：语音频道（默认自由模式），4：帖子频道（默认详细模式）
+		IslandSourceId string      `json:"islandSourceId" binding:"required"` // 群ID
+		ChannelName    string      `json:"channelName"`                       // 频道名称，非必传，不传时默认使用名称`新的频道`，不能大于32个字符或16个汉字
+		ChannelType    ChannelType `json:"channelType" binding:"required"`    // 频道类型，1：文字频道，2：语音频道（默认自由模式），4：帖子频道（默认详细模式）
 	}
 
 	// CreateChannelRsp 创建频道 response
@@ -70,8 +70,8 @@ type (
 )
 
 func (p *CreateChannelReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	if p.ChannelType == 0 {
 		return errors.New("invalid parameter ChannelType (zero detected)")
@@ -81,14 +81,14 @@ func (p *CreateChannelReq) ValidParams() error {
 
 // EditChannelReq 编辑频道 request
 type EditChannelReq struct {
-	IslandId    string `json:"islandId" binding:"required"`  // 群号
-	ChannelId   string `json:"channelId" binding:"required"` // 频道号
-	ChannelName string `json:"channelName,omitempty"`
+	IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
+	ChannelId      string `json:"channelId" binding:"required"`      // 频道号
+	ChannelName    string `json:"channelName,omitempty"`
 }
 
 func (p *EditChannelReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	if p.ChannelId == "" {
 		return errors.New("invalid parameter ChannelId (empty detected)")
@@ -98,13 +98,13 @@ func (p *EditChannelReq) ValidParams() error {
 
 // RemoveChannelReq 删除频道 request
 type RemoveChannelReq struct {
-	IslandId  string `json:"islandId" binding:"required"`  // 群号
-	ChannelId string `json:"channelId" binding:"required"` // 频道号
+	IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
+	ChannelId      string `json:"channelId" binding:"required"`      // 频道号
 }
 
 func (p *RemoveChannelReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	if p.ChannelId == "" {
 		return errors.New("invalid parameter ChannelId (empty detected)")
@@ -119,7 +119,7 @@ type (
 		MessageType         MessageType  `json:"messageType" binding:"required"` // 消息类型，该参数会在SDK中重新赋值，所以无需开发者主动设值
 		MessageBody         IMessageBody `json:"messageBody" binding:"required"` // 消息内容
 		ReferencedMessageId string       `json:"referencedMessageId,omitempty"`  // 回复消息ID
-		DodoId              string       `json:"dodoId,omitempty"`               // DoDo号，非必传，如果传了，则给该成员发送频道私信
+		DodoSourceId        string       `json:"dodoSourceId,omitempty"`         // DoDoID，非必传，如果传了，则给该成员发送频道私信
 	}
 
 	// SendChannelMessageRsp 发送消息 response
@@ -196,9 +196,9 @@ func (p *AddChannelMessageReactionReq) ValidParams() error {
 
 // RemChannelMessageReactionReq 取消表情反应 request
 type RemChannelMessageReactionReq struct {
-	MessageId string         `json:"messageId" binding:"required"` // 消息 ID
-	Emoji     *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情
-	DoDoId    string         `json:"dodoId,omitempty"`             // DoDo号，不传或传空时表示移除机器人自身的反应
+	MessageId    string         `json:"messageId" binding:"required"` // 消息 ID
+	Emoji        *ReactionEmoji `json:"emoji" binding:"required"`     // 反应表情
+	DodoSourceId string         `json:"dodoSourceId,omitempty"`       // DoDoID，不传或传空时表示移除机器人自身的反应
 }
 
 func (p *RemChannelMessageReactionReq) ValidParams() error {
