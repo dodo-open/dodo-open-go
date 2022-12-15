@@ -36,8 +36,8 @@ func Test_SendTextDM(t *testing.T) {
 
 	content := fmt.Sprintf("example: send-direct-message, time: %s", time.Now().Format("2006-01-02 15:04:05"))
 	sendTextDmResp, err := instance.SendDirectMessage(context.Background(), &model.SendDirectMessageReq{
-		DodoId:      "5464471",
-		MessageBody: &model.TextMessage{Content: content},
+		DodoSourceId: "5464471",
+		MessageBody:  &model.TextMessage{Content: content},
 	})
 	if err != nil {
 		t.Fatalf("发送消息失败：%v", err)
@@ -67,7 +67,7 @@ func Test_SendImageDM(t *testing.T) {
 	}
 	// Step 3. 发送消息
 	sendImageDmResp, err := instance.SendDirectMessage(context.Background(), &model.SendDirectMessageReq{
-		DodoId: "5464471",
+		DodoSourceId: "5464471",
 		MessageBody: &model.ImageMessage{
 			Url:        resourceResp.Url,
 			Width:      resourceResp.Width,

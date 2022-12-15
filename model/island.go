@@ -8,7 +8,7 @@ type GetIslandListReq struct {
 
 // IslandElement 获取群列表 list element
 type IslandElement struct {
-	IslandId          string `json:"islandId"`          // 群号
+	IslandSourceId    string `json:"islandSourceId"`    // 群ID
 	IslandName        string `json:"islandName"`        // 群名称
 	CoverUrl          string `json:"coverUrl"`          // 群头像
 	MemberCount       int    `json:"memberCount"`       // 成员数
@@ -19,12 +19,12 @@ type IslandElement struct {
 
 // GetIslandInfoReq 获取群信息 request
 type GetIslandInfoReq struct {
-	IslandId string `json:"islandId" binding:"required"` // 群号
+	IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
 }
 
 func (p *GetIslandInfoReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	return nil
 }
@@ -39,21 +39,21 @@ type GetIslandInfoRsp struct {
 type (
 	// GetIslandLevelRankListReq 获取群等级排行榜 request
 	GetIslandLevelRankListReq struct {
-		IslandId string `json:"islandId" binding:"required"` // 群号
+		IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
 	}
 
 	// GetIslandLevelRankElement 获取群等级排行榜 list element
 	GetIslandLevelRankElement struct {
-		DodoId   string `json:"dodoId"`   // DoDo号
-		NickName string `json:"nickName"` // 群昵称
-		Level    int    `json:"level"`    // 等级
-		Rank     int    `json:"rank"`     // 排名，返回前100名
+		DodoSourceId string `json:"dodoSourceId"` // DoDoID
+		NickName     string `json:"nickName"`     // 群昵称
+		Level        int    `json:"level"`        // 等级
+		Rank         int    `json:"rank"`         // 排名，返回前100名
 	}
 )
 
 func (p *GetIslandLevelRankListReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	return nil
 }
@@ -61,9 +61,9 @@ func (p *GetIslandLevelRankListReq) ValidParams() error {
 type (
 	// GetIslandMuteListReq 获取群禁言名单 request
 	GetIslandMuteListReq struct {
-		IslandId string `json:"islandId" binding:"required"` // 群号
-		PageSize int    `json:"pageSize" binding:"required"` // 页大小，最大100
-		MaxId    uint64 `json:"maxId" binding:"required"`    // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
+		IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
+		PageSize       int    `json:"pageSize" binding:"required"`       // 页大小，最大100
+		MaxId          uint64 `json:"maxId" binding:"required"`          // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
 	}
 
 	// GetIslandMuteListRsp 获取群禁言名单 response
@@ -74,13 +74,13 @@ type (
 
 	// GetIslandMuteElement 获取群禁言名单 list element
 	GetIslandMuteElement struct {
-		DodoId string `json:"dodoId"` // DoDo号
+		DodoSourceId string `json:"dodoSourceId"` // DoDoID
 	}
 )
 
 func (p *GetIslandMuteListReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	if p.PageSize <= 0 {
 		return errors.New("invalid parameter PageSize (PageSize must not less than 0)")
@@ -91,9 +91,9 @@ func (p *GetIslandMuteListReq) ValidParams() error {
 type (
 	// GetIslandBanListReq 获取群封禁名单 request
 	GetIslandBanListReq struct {
-		IslandId string `json:"islandId" binding:"required"` // 群号
-		PageSize int    `json:"pageSize" binding:"required"` // 页大小，最大100
-		MaxId    uint64 `json:"maxId" binding:"required"`    // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
+		IslandSourceId string `json:"islandSourceId" binding:"required"` // 群ID
+		PageSize       int    `json:"pageSize" binding:"required"`       // 页大小，最大100
+		MaxId          uint64 `json:"maxId" binding:"required"`          // 上一页最大 ID 值，为提升分页查询性能，需要传入上一页查询记录中的最大 ID 值，首页请传 0
 	}
 
 	// GetIslandBanListRsp 获取群封禁名单 response
@@ -104,13 +104,13 @@ type (
 
 	// GetIslandBanElement 获取群封禁名单 list element
 	GetIslandBanElement struct {
-		DodoId string `json:"dodoId"` // DoDo号
+		DodoSourceId string `json:"dodoSourceId"` // DoDoID
 	}
 )
 
 func (p *GetIslandBanListReq) ValidParams() error {
-	if p.IslandId == "" {
-		return errors.New("invalid parameter IslandId (empty detected)")
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter IslandSourceId (empty detected)")
 	}
 	if p.PageSize <= 0 {
 		return errors.New("invalid parameter PageSize (PageSize must not less than 0)")
