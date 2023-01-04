@@ -112,5 +112,6 @@ channelMessageHandler := func(event *WSEventMessage, data *ChannelMessageEventBo
 
 ## TODO
 
-- 或许我们需要重构封装事件数据的结构，当前`WSEventMessage.Data`和`EventData.EventBody`这两个属性都使用了`jsoniter.RawMessage`来封装。
-- WebSocket 的重连流程不是很友好，当前如果需要断线重连，你必须关闭之前的所有资源，包括`conn`、`messageChan`、`closeChan`。
+- 或许我们需要重构封装事件数据的结构，当前`WSEventMessage.Data`和`EventData.EventBody`
+  这两个属性都使用了`jsoniter.RawMessage`来封装。
+- WebSocket 的重连流程不是很友好，当前如果需要断线重连，你必须关闭之前的所有资源，包括`conn`、`messageChan`、`closeChan` 。
