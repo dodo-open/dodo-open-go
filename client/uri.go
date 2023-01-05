@@ -6,8 +6,11 @@ type uri string
 
 const (
 	// 机器人 API
-	getBotInfoUri        uri = "/api/v2/bot/info"         // 获取机器人信息
-	setBotIslandLeaveUri uri = "/api/v2/bot/island/leave" // 机器人退群
+	getBotInfoUri         uri = "/api/v2/bot/info"          // 获取机器人信息
+	setBotIslandLeaveUri  uri = "/api/v2/bot/island/leave"  // 机器人退群
+	getBotInviteListUri   uri = "/api/v2/bot/invite/list"   // 获取机器人邀请列表
+	setBotInviteAddUri    uri = "/api/v2/bot/invite/add"    // 添加成员到机器人邀请列表
+	setBotInviteRemoveUri uri = "/api/v2/bot/invite/remove" // 移除成员出机器人邀请列表
 
 	// 群 API
 	getIslandListUri          uri = "/api/v2/island/list"            // 获取群列表

@@ -12,6 +12,7 @@ type (
 	// Client DoDoBot API Interface
 	Client interface {
 		Base
+		BotAPI
 		IslandAPI
 		ChannelAPI
 		MessageAPI
@@ -26,8 +27,15 @@ type (
 	// Base client basic interface
 	Base interface {
 		GetConfig() *Config
-		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)                         // GetBotInfo 获取机器人信息
-		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error) // SetBotIslandLeave 机器人退群
+	}
+
+	// BotAPI bot API interface
+	BotAPI interface {
+		GetBotInfo(ctx context.Context) (*model.GetBotInfoRsp, error)                                             // GetBotInfo 获取机器人信息
+		SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIslandReq) (bool, error)                     // SetBotIslandLeave 机器人退群
+		GetBotInviteList(ctx context.Context, req *model.GetBotInviteListReq) (*model.GetBotInviteListRsp, error) // GetBotInviteList 获取机器人邀请列表
+		SetBotInviteAdd(ctx context.Context, req *model.SetBotInviteAddReq) (bool, error)                         // SetBotInviteAdd 添加成员到机器人邀请列表
+		SetBotInviteRemove(ctx context.Context, req *model.SetBotInviteRemoveReq) (bool, error)                   // SetBotInviteRemove 移除成员出机器人邀请列表
 	}
 
 	// IslandAPI island API interface
