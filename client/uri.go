@@ -33,6 +33,11 @@ const (
 	addChannelMessageReaction uri = "/api/v2/channel/message/reaction/add"    // 添加表情反应
 	remChannelMessageReaction uri = "/api/v2/channel/message/reaction/remove" // 取消表情反应
 
+	// 语音频道 API
+	getChannelVoiceMemberStatusUri uri = "/api/v2/channel/voice/member/status" // 获取成员语音频道状态
+	setChannelVoiceMemberMoveUri   uri = "/api/v2/channel/voice/member/move"   // 移动语音频道成员
+	setChannelVoiceMemberEditUri   uri = "/api/v2/channel/voice/member/edit"   // 管理语音中的成员
+
 	// 身份组 API
 	getRoleListUri      uri = "/api/v2/role/list"          // 获取身份组列表
 	createRoleUri       uri = "/api/v2/role/add"           // 创建身份组

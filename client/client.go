@@ -15,6 +15,7 @@ type (
 		BotAPI
 		IslandAPI
 		ChannelAPI
+		ChannelVoiceAPI
 		MessageAPI
 		RoleAPI
 		MemberAPI
@@ -54,6 +55,13 @@ type (
 		CreateChannel(ctx context.Context, req *model.CreateChannelReq) (*model.CreateChannelRsp, error)    // CreateChannel 创建频道
 		EditChannel(ctx context.Context, req *model.EditChannelReq) (bool, error)                           // EditChannel 编辑频道
 		RemoveChannel(ctx context.Context, req *model.RemoveChannelReq) (bool, error)                       // RemoveChannel 编辑频道
+	}
+
+	// ChannelVoiceAPI channel voice API interface
+	ChannelVoiceAPI interface {
+		GetChannelVoiceMemberStatus(ctx context.Context, req *model.GetChannelVoiceMemberStatusReq) (*model.GetChannelVoiceMemberStatusRsp, error) // GetChannelVoiceMemberStatus 获取成员语音频道状态
+		SetChannelVoiceMemberMove(ctx context.Context, req *model.SetChannelVoiceMemberMoveReq) (bool, error)                                      // SetChannelVoiceMemberMove 移动语音频道成员
+		SetChannelVoiceMemberEdit(ctx context.Context, req *model.SetChannelVoiceMemberEditReq) (bool, error)                                      // SetChannelVoiceMemberEdit 管理语音中的成员
 	}
 
 	// MessageAPI message API interface
