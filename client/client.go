@@ -16,6 +16,7 @@ type (
 		IslandAPI
 		ChannelAPI
 		ChannelVoiceAPI
+		ChannelArticleAPI
 		MessageAPI
 		RoleAPI
 		MemberAPI
@@ -62,6 +63,11 @@ type (
 		GetChannelVoiceMemberStatus(ctx context.Context, req *model.GetChannelVoiceMemberStatusReq) (*model.GetChannelVoiceMemberStatusRsp, error) // GetChannelVoiceMemberStatus 获取成员语音频道状态
 		SetChannelVoiceMemberMove(ctx context.Context, req *model.SetChannelVoiceMemberMoveReq) (bool, error)                                      // SetChannelVoiceMemberMove 移动语音频道成员
 		SetChannelVoiceMemberEdit(ctx context.Context, req *model.SetChannelVoiceMemberEditReq) (bool, error)                                      // SetChannelVoiceMemberEdit 管理语音中的成员
+	}
+	// ChannelArticleAPI  channel article API interface
+	ChannelArticleAPI interface {
+		SetChannelArticleAdd(ctx context.Context, req *model.SetChannelArticleAddReq) (*model.SetChannelArticleAddRsp, error) // SetChannelArticleAdd 发布帖子
+		SetChannelArticleRemove(ctx context.Context, req *model.SetChannelArticleRemoveReq) (bool, error)                     // SetChannelArticleRemove 删除帖子评论回复
 	}
 
 	// MessageAPI message API interface

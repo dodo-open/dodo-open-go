@@ -38,6 +38,10 @@ const (
 	setChannelVoiceMemberMoveUri   uri = "/api/v2/channel/voice/member/move"   // 移动语音频道成员
 	setChannelVoiceMemberEditUri   uri = "/api/v2/channel/voice/member/edit"   // 管理语音中的成员
 
+	// 帖子频道
+	setChannelArticleAddUri    uri = "/api/v2/channel/article/add"    // 发布帖子
+	setChannelArticleRemoveUri uri = "/api/v2/channel/article/remove" // 删除帖子评论回复
+
 	// 身份组 API
 	getRoleListUri      uri = "/api/v2/role/list"          // 获取身份组列表
 	createRoleUri       uri = "/api/v2/role/add"           // 创建身份组
