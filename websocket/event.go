@@ -13,6 +13,8 @@ const (
 	MemberLeaveEvent             EventType = "4002" // 成员退出事件
 	ChannelVoiceMemberJoinEvent  EventType = "5001" // 成员加入语音频道事件
 	ChannelVoiceMemberLeaveEvent EventType = "5002" // 成员退出语音频道事件
+	ChannelArticleEvent          EventType = "6001" // 帖子发布事件
+	ChannelArticleCommentEvent   EventType = "6002" // 帖子评论回复事件
 )
 
 // eventParserMap event parser map, for safety, do not modify this map
@@ -24,6 +26,8 @@ var eventParserMap = map[EventType]eventParser{
 	MemberLeaveEvent:             memberLeaveHandler,
 	ChannelVoiceMemberJoinEvent:  channelVoiceMemberJoinHandler,
 	ChannelVoiceMemberLeaveEvent: channelVoiceMemberLeaveHandler,
+	ChannelArticleEvent:          channelArticleHandler,
+	ChannelArticleCommentEvent:   channelArticleCommentHandler,
 }
 
 // ParseDataAndHandle parse message data and handle it
@@ -146,6 +150,34 @@ func channelVoiceMemberLeaveHandler(c *client, event *WSEventMessage, message []
 	}
 	if DefaultHandlers.ChannelVoiceMemberLeave != nil {
 		return DefaultHandlers.ChannelVoiceMemberLeave(event, data)
+	}
+	return nil
+}
+
+func channelArticleHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelArticleEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelArticle != nil {
+		return c.conf.messageHandlers.ChannelArticle(event, data)
+	}
+	if DefaultHandlers.ChannelArticle != nil {
+		return DefaultHandlers.ChannelArticle(event, data)
+	}
+	return nil
+}
+
+func channelArticleCommentHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelArticleCommentEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelArticleComment != nil {
+		return c.conf.messageHandlers.ChannelArticleComment(event, data)
+	}
+	if DefaultHandlers.ChannelArticleComment != nil {
+		return DefaultHandlers.ChannelArticleComment(event, data)
 	}
 	return nil
 }

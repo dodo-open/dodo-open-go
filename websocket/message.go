@@ -126,6 +126,33 @@ type (
 		Personal       *PersonalModel `json:"personal"`       // 个人信息
 		Member         *MemberModel   `json:"member"`         // 成员信息
 	}
+
+	// ChannelArticleEventBody 帖子发布事件
+	ChannelArticleEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+		ArticleId      string         `json:"articleId"`      // 帖子ID
+		Title          string         `json:"title"`          // 标题
+		ImageList      []string       `json:"imageList"`      // 图片列表
+		Content        string         `json:"content"`        // 文本内容，支持 菱形语法内容的接收
+	}
+
+	// ChannelArticleCommentEventBody 帖子评论回复事件
+	ChannelArticleCommentEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+		ArticleId      string         `json:"articleId"`      // 帖子ID
+		CommentId      string         `json:"commentId"`      // 帖子评论ID
+		ReplyId        string         `json:"replyId"`        // 帖子评论回复ID，为空时：为评论事件，不为空时：为评论回复事件
+		ImageList      []string       `json:"imageList"`      // 图片列表
+		Content        string         `json:"content"`        // 文本内容，支持 菱形语法内容的接收
+	}
 )
 
 func (e *PersonalMessageEventBody) EventType() EventType {
@@ -154,4 +181,12 @@ func (e *ChannelVoiceMemberJoinEventBody) EventType() EventType {
 
 func (e *ChannelVoiceMemberLeaveEventBody) EventType() EventType {
 	return ChannelVoiceMemberLeaveEvent
+}
+
+func (e *ChannelArticleEventBody) EventType() EventType {
+	return ChannelArticleEvent
+}
+
+func (e *ChannelArticleCommentEventBody) EventType() EventType {
+	return ChannelArticleCommentEvent
 }

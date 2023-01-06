@@ -9,6 +9,8 @@ type MessageHandlers struct {
 	MemberLeave             MemberLeaveEventHandler
 	ChannelVoiceMemberJoin  ChannelVoiceMemberJoinHandler
 	ChannelVoiceMemberLeave ChannelVoiceMemberLeaveHandler
+	ChannelArticle          ChannelArticleHandler
+	ChannelArticleComment   ChannelArticleCommentHandler
 	PlainTextHandler        PlainTextHandler
 	ErrorHandler            ErrorHandler
 }
@@ -22,6 +24,8 @@ var DefaultHandlers = &MessageHandlers{
 	MemberLeave:             func(event *WSEventMessage, data *MemberLeaveEventBody) error { return nil },
 	ChannelVoiceMemberJoin:  func(event *WSEventMessage, data *ChannelVoiceMemberJoinEventBody) error { return nil },
 	ChannelVoiceMemberLeave: func(event *WSEventMessage, data *ChannelVoiceMemberLeaveEventBody) error { return nil },
+	ChannelArticle:          func(event *WSEventMessage, data *ChannelArticleEventBody) error { return nil },
+	ChannelArticleComment:   func(event *WSEventMessage, data *ChannelArticleCommentEventBody) error { return nil },
 	PlainTextHandler:        func(event *WSEventMessage, message []byte) error { return nil },
 	ErrorHandler:            func(err error) {},
 }
@@ -47,6 +51,12 @@ func fillHandler(handlers *MessageHandlers) *MessageHandlers {
 	}
 	if handlers.ChannelVoiceMemberLeave == nil {
 		handlers.ChannelVoiceMemberLeave = DefaultHandlers.ChannelVoiceMemberLeave
+	}
+	if handlers.ChannelArticle == nil {
+		handlers.ChannelArticle = DefaultHandlers.ChannelArticle
+	}
+	if handlers.ChannelArticleComment == nil {
+		handlers.ChannelArticleComment = DefaultHandlers.ChannelArticleComment
 	}
 	if handlers.PlainTextHandler == nil {
 		handlers.PlainTextHandler = DefaultHandlers.PlainTextHandler
@@ -78,6 +88,12 @@ type ChannelVoiceMemberJoinHandler func(event *WSEventMessage, data *ChannelVoic
 // ChannelVoiceMemberLeaveHandler 成员退出语音频道事件
 type ChannelVoiceMemberLeaveHandler func(event *WSEventMessage, data *ChannelVoiceMemberLeaveEventBody) error
 
+// ChannelArticleHandler 帖子发布事件
+type ChannelArticleHandler func(event *WSEventMessage, data *ChannelArticleEventBody) error
+
+// ChannelArticleCommentHandler 帖子评论回复事件
+type ChannelArticleCommentHandler func(event *WSEventMessage, data *ChannelArticleCommentEventBody) error
+
 // PlainTextHandler plain text message handler
 type PlainTextHandler func(event *WSEventMessage, message []byte) error
 
@@ -102,6 +118,10 @@ func RegisterHandlers(handlers ...interface{}) {
 			DefaultHandlers.ChannelVoiceMemberJoin = handle
 		case ChannelVoiceMemberLeaveHandler:
 			DefaultHandlers.ChannelVoiceMemberLeave = handle
+		case ChannelArticleHandler:
+			DefaultHandlers.ChannelArticle = handle
+		case ChannelArticleCommentHandler:
+			DefaultHandlers.ChannelArticleComment = handle
 		default:
 			// other handlers will be registered in the following functions
 			// non-business handler will be registered here
