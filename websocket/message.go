@@ -78,7 +78,7 @@ type (
 		Member         *MemberModel        `json:"member"`         // 成员信息
 		Reference      *ReferenceModel     `json:"reference"`      // 回复信息
 		MessageId      string              `json:"messageId"`      // 消息ID
-		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
+		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息 6:卡片消息
 		MessageBody    jsoniter.RawMessage `json:"messageBody"`    // 消息内容（model.IMessageBody）
 	}
 
@@ -108,6 +108,24 @@ type (
 		OperateDodoSourceId string         `json:"operateDodoSourceId"` // 操作者DoDoID（执行踢出操作的人）
 		ModifyTime          string         `json:"modifyTime"`          // 变动时间
 	}
+
+	// ChannelVoiceMemberJoinEventBody 成员加入语音频道事件
+	ChannelVoiceMemberJoinEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+	}
+
+	// ChannelVoiceMemberLeaveEventBody 成员退出语音频道事件
+	ChannelVoiceMemberLeaveEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+	}
 )
 
 func (e *PersonalMessageEventBody) EventType() EventType {
@@ -128,4 +146,12 @@ func (e *MemberJoinEventBody) EventType() EventType {
 
 func (e *MemberLeaveEventBody) EventType() EventType {
 	return MemberLeaveEvent
+}
+
+func (e *ChannelVoiceMemberJoinEventBody) EventType() EventType {
+	return ChannelVoiceMemberJoinEvent
+}
+
+func (e *ChannelVoiceMemberLeaveEventBody) EventType() EventType {
+	return ChannelVoiceMemberLeaveEvent
 }

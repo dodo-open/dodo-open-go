@@ -6,20 +6,24 @@ import "github.com/dodo-open/dodo-open-go/tools"
 type EventType string
 
 const (
-	PersonalMessageEvent EventType = "1001" // 个人消息事件
-	ChannelMessageEvent  EventType = "2001" // 频道消息事件
-	MessageReactionEvent EventType = "3001" // 消息反应事件
-	MemberJoinEvent      EventType = "4001" // 成员加入事件
-	MemberLeaveEvent     EventType = "4002" // 成员退出事件
+	PersonalMessageEvent         EventType = "1001" // 个人消息事件
+	ChannelMessageEvent          EventType = "2001" // 频道消息事件
+	MessageReactionEvent         EventType = "3001" // 消息反应事件
+	MemberJoinEvent              EventType = "4001" // 成员加入事件
+	MemberLeaveEvent             EventType = "4002" // 成员退出事件
+	ChannelVoiceMemberJoinEvent  EventType = "5001" // 成员加入语音频道事件
+	ChannelVoiceMemberLeaveEvent EventType = "5002" // 成员退出语音频道事件
 )
 
 // eventParserMap event parser map, for safety, do not modify this map
 var eventParserMap = map[EventType]eventParser{
-	PersonalMessageEvent: personalMessageHandler,
-	ChannelMessageEvent:  channelMessageHandler,
-	MessageReactionEvent: messageReactionHandler,
-	MemberJoinEvent:      memberJoinHandler,
-	MemberLeaveEvent:     memberLeaveHandler,
+	PersonalMessageEvent:         personalMessageHandler,
+	ChannelMessageEvent:          channelMessageHandler,
+	MessageReactionEvent:         messageReactionHandler,
+	MemberJoinEvent:              memberJoinHandler,
+	MemberLeaveEvent:             memberLeaveHandler,
+	ChannelVoiceMemberJoinEvent:  channelVoiceMemberJoinHandler,
+	ChannelVoiceMemberLeaveEvent: channelVoiceMemberLeaveHandler,
 }
 
 // ParseDataAndHandle parse message data and handle it
@@ -114,6 +118,34 @@ func memberLeaveHandler(c *client, event *WSEventMessage, message []byte) error 
 	}
 	if DefaultHandlers.MemberLeave != nil {
 		return DefaultHandlers.MemberLeave(event, data)
+	}
+	return nil
+}
+
+func channelVoiceMemberJoinHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelVoiceMemberJoinEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelVoiceMemberJoin != nil {
+		return c.conf.messageHandlers.ChannelVoiceMemberJoin(event, data)
+	}
+	if DefaultHandlers.ChannelVoiceMemberJoin != nil {
+		return DefaultHandlers.ChannelVoiceMemberJoin(event, data)
+	}
+	return nil
+}
+
+func channelVoiceMemberLeaveHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelVoiceMemberLeaveEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelVoiceMemberLeave != nil {
+		return c.conf.messageHandlers.ChannelVoiceMemberLeave(event, data)
+	}
+	if DefaultHandlers.ChannelVoiceMemberLeave != nil {
+		return DefaultHandlers.ChannelVoiceMemberLeave(event, data)
 	}
 	return nil
 }
