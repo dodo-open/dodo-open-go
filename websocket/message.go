@@ -153,6 +153,30 @@ type (
 		ImageList      []string       `json:"imageList"`      // 图片列表
 		Content        string         `json:"content"`        // 文本内容，支持 菱形语法内容的接收
 	}
+
+	// GiftSendEventBody 赠礼成功事件
+	// [https://open.imdodo.com/dev/event/gift.html#%E8%B5%A0%E7%A4%BC%E6%88%90%E5%8A%9F%E4%BA%8B%E4%BB%B6]
+	GiftSendEventBody struct {
+		IslandSourceId string `json:"islandSourceId"`
+		ChannelId      string `json:"channelId"`
+		OrderNo        string `json:"orderNo"`
+		TargetType     int    `json:"targetType"`
+		TargetId       string `json:"targetId"`
+		Gift           struct {
+			Id    string `json:"id"`
+			Name  string `json:"name"`
+			Count int    `json:"count"`
+		} `json:"gift"`
+		TotalAmount          float64 `json:"totalAmount"`
+		IslandRatio          float64 `json:"islandRatio"`
+		IslandIncome         float64 `json:"islandIncome"`
+		DodoSourceId         string  `json:"dodoSourceId"`
+		DodoIslandNickName   string  `json:"dodoIslandNickName"`
+		ToDodoSourceId       string  `json:"toDodoSourceId"`
+		ToDodoIslandNickName string  `json:"toDodoIslandNickName"`
+		ToDodoRatio          float64 `json:"toDodoRatio"`
+		ToDodoIncome         float64 `json:"toDodoIncome"`
+	}
 )
 
 func (e *PersonalMessageEventBody) EventType() EventType {
@@ -189,4 +213,7 @@ func (e *ChannelArticleEventBody) EventType() EventType {
 
 func (e *ChannelArticleCommentEventBody) EventType() EventType {
 	return ChannelArticleCommentEvent
+}
+func (e *GiftSendEventBody) EventType() EventType {
+	return GiftSendEvent
 }

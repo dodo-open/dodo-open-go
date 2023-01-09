@@ -11,6 +11,7 @@ type MessageHandlers struct {
 	ChannelVoiceMemberLeave ChannelVoiceMemberLeaveHandler
 	ChannelArticle          ChannelArticleHandler
 	ChannelArticleComment   ChannelArticleCommentHandler
+	GiftSend                GiftSendHandler
 	PlainTextHandler        PlainTextHandler
 	ErrorHandler            ErrorHandler
 }
@@ -26,6 +27,7 @@ var DefaultHandlers = &MessageHandlers{
 	ChannelVoiceMemberLeave: func(event *WSEventMessage, data *ChannelVoiceMemberLeaveEventBody) error { return nil },
 	ChannelArticle:          func(event *WSEventMessage, data *ChannelArticleEventBody) error { return nil },
 	ChannelArticleComment:   func(event *WSEventMessage, data *ChannelArticleCommentEventBody) error { return nil },
+	GiftSend:                func(event *WSEventMessage, data *GiftSendEventBody) error { return nil },
 	PlainTextHandler:        func(event *WSEventMessage, message []byte) error { return nil },
 	ErrorHandler:            func(err error) {},
 }
@@ -57,6 +59,9 @@ func fillHandler(handlers *MessageHandlers) *MessageHandlers {
 	}
 	if handlers.ChannelArticleComment == nil {
 		handlers.ChannelArticleComment = DefaultHandlers.ChannelArticleComment
+	}
+	if handlers.GiftSend == nil {
+		handlers.GiftSend = DefaultHandlers.GiftSend
 	}
 	if handlers.PlainTextHandler == nil {
 		handlers.PlainTextHandler = DefaultHandlers.PlainTextHandler
@@ -94,6 +99,9 @@ type ChannelArticleHandler func(event *WSEventMessage, data *ChannelArticleEvent
 // ChannelArticleCommentHandler 帖子评论回复事件
 type ChannelArticleCommentHandler func(event *WSEventMessage, data *ChannelArticleCommentEventBody) error
 
+// GiftSendHandler 赠礼成功事件
+type GiftSendHandler func(event *WSEventMessage, data *GiftSendEventBody) error
+
 // PlainTextHandler plain text message handler
 type PlainTextHandler func(event *WSEventMessage, message []byte) error
 
@@ -122,6 +130,8 @@ func RegisterHandlers(handlers ...interface{}) {
 			DefaultHandlers.ChannelArticle = handle
 		case ChannelArticleCommentHandler:
 			DefaultHandlers.ChannelArticleComment = handle
+		case GiftSendHandler:
+			DefaultHandlers.GiftSend = handle
 		default:
 			// other handlers will be registered in the following functions
 			// non-business handler will be registered here

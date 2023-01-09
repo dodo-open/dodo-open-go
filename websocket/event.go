@@ -15,6 +15,7 @@ const (
 	ChannelVoiceMemberLeaveEvent EventType = "5002" // 成员退出语音频道事件
 	ChannelArticleEvent          EventType = "6001" // 帖子发布事件
 	ChannelArticleCommentEvent   EventType = "6002" // 帖子评论回复事件
+	GiftSendEvent                EventType = "7001" // 赠礼成功事件
 )
 
 // eventParserMap event parser map, for safety, do not modify this map
@@ -28,6 +29,7 @@ var eventParserMap = map[EventType]eventParser{
 	ChannelVoiceMemberLeaveEvent: channelVoiceMemberLeaveHandler,
 	ChannelArticleEvent:          channelArticleHandler,
 	ChannelArticleCommentEvent:   channelArticleCommentHandler,
+	GiftSendEvent:                giftSendHandler,
 }
 
 // ParseDataAndHandle parse message data and handle it
@@ -178,6 +180,20 @@ func channelArticleCommentHandler(c *client, event *WSEventMessage, message []by
 	}
 	if DefaultHandlers.ChannelArticleComment != nil {
 		return DefaultHandlers.ChannelArticleComment(event, data)
+	}
+	return nil
+}
+
+func giftSendHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &GiftSendEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.GiftSend != nil {
+		return c.conf.messageHandlers.GiftSend(event, data)
+	}
+	if DefaultHandlers.GiftSend != nil {
+		return DefaultHandlers.GiftSend(event, data)
 	}
 	return nil
 }
