@@ -24,6 +24,7 @@ type (
 		DirectMessageAPI
 		ResourceUploadAPI
 		WebsocketAPI
+		GiftAPI
 	}
 
 	// Base client basic interface
@@ -100,6 +101,15 @@ type (
 		UnmuteMember(ctx context.Context, req *model.UnmuteMemberReq) (bool, error)                                        // UnmuteMember 取消成员禁言
 		BanMember(ctx context.Context, req *model.BanMemberReq) (bool, error)                                              // BanMember 永久封禁成员
 		UnbanMember(ctx context.Context, req *model.UnbanMemberReq) (bool, error)                                          // UnbanMember 取消成员永久封禁
+	}
+
+	// GiftAPI gift API interface
+	GiftAPI interface {
+		GetGiftAccount(ctx context.Context, req *model.GetGiftAccountReq) (*model.GetGiftAccountRsp, error)                      // GetGiftAccount 获取群收入
+		GetGiftShareRatioInfo(ctx context.Context, req *model.GetGiftShareRatioInfoReq) (*model.GetGiftShareRatioInfoRsp, error) // GetGiftShareRatioInfo 获取成员分成管理
+		GetGiftList(ctx context.Context, req *model.GetGiftListReq) ([]*model.GetGiftListRsp, error)                             // GetGiftList 获取内容礼物列表
+		GetGiftMemberList(ctx context.Context, req *model.GetGiftMemberListReq) (*model.GetGiftMemberListRsp, error)             // GetGiftMemberList 获取内容礼物内成员列表
+		GetGiftGrossValueList(ctx context.Context, req *model.GetGiftGrossValueListReq) (*model.GetGiftGrossValueListRsp, error) // GetGiftGrossValueList 获取内容礼物总值列表
 	}
 
 	// DigitalAssetAPI digital asset API interface

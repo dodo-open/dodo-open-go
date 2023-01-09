@@ -61,6 +61,13 @@ const (
 	banMemberUri         uri = "/api/v2/member/ban/set"         // 永久封禁成员
 	unbanMemberUri       uri = "/api/v2/member/ban/remove"      // 取消成员永久封禁
 
+	// 赠礼系统 API
+	getGiftAccountUri        uri = "/api/v2/gift/account/info"     // 获取群收入
+	getGiftShareRatioInfoUri uri = "/api/v2/gift/share/ratio/info" // 获取成员分成管理
+	getGiftListUri           uri = "/api/v2/gift/list"             // 获取内容礼物列表
+	getGiftMemberListUri     uri = "/api/v2/gift/member/list"      // 获取内容礼物内成员列表
+	getGiftGrossValueListUri uri = "/api/v2/gift/gross/value/list" // 获取内容礼物总值列表
+
 	// 数字藏品 API
 	getMemberNFTStatusUri    uri = "/api/v2/member/nft/status"       // 获取成员数字藏品判断
 	getMemberUPowerchainInfo uri = "/api/v2/member/upowerchain/info" // 取成员高能链数字藏品信息
