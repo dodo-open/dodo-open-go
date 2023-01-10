@@ -115,3 +115,20 @@ func (c *client) RemoveRoleMember(ctx context.Context, req *model.RemoveRoleMemb
 	}
 	return true, nil
 }
+
+// GetRoleMemberList 获取身份组成员列表
+func (c *client) GetRoleMemberList(ctx context.Context, req *model.GetRoleMemberListReq) (*model.GetRoleMemberListRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(getRoleMemberListUri))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.GetRoleMemberListRsp{}
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
+}

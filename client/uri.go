@@ -43,12 +43,13 @@ const (
 	setChannelArticleRemoveUri uri = "/api/v2/channel/article/remove" // 删除帖子评论回复
 
 	// 身份组 API
-	getRoleListUri      uri = "/api/v2/role/list"          // 获取身份组列表
-	createRoleUri       uri = "/api/v2/role/add"           // 创建身份组
-	editRoleUri         uri = "/api/v2/role/edit"          // 编辑身份组
-	removeRoleUri       uri = "/api/v2/role/remove"        // 删除身份组
-	addRoleMemberUri    uri = "/api/v2/role/member/add"    // 赋予成员身份组
-	removeRoleMemberUri uri = "/api/v2/role/member/remove" // 取消成员身份组
+	getRoleListUri       uri = "/api/v2/role/list"          // 获取身份组列表
+	createRoleUri        uri = "/api/v2/role/add"           // 创建身份组
+	editRoleUri          uri = "/api/v2/role/edit"          // 编辑身份组
+	removeRoleUri        uri = "/api/v2/role/remove"        // 删除身份组
+	addRoleMemberUri     uri = "/api/v2/role/member/add"    // 赋予成员身份组
+	removeRoleMemberUri  uri = "/api/v2/role/member/remove" // 取消成员身份组
+	getRoleMemberListUri uri = "/api/v2/role/member/list"   // 获取身份组成员列表
 
 	// 成员 API
 	getMemberListUri     uri = "/api/v2/member/list"            // 获取成员列表
