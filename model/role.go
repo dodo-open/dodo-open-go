@@ -16,11 +16,12 @@ func (p *GetRoleListReq) ValidParams() error {
 
 // RoleElement 身份组数据对象 list element
 type RoleElement struct {
-	RoleId     string `json:"roleId"`     // 身份组ID
-	RoleName   string `json:"roleName"`   // 身份组名称
-	RoleColor  string `json:"roleColor"`  // 身份组颜色，例：#ffffff
-	Position   int    `json:"position"`   // 身份组排序位置
-	Permission string `json:"permission"` // 身份组权限值，16进制
+	RoleId      string `json:"roleId"`      // 身份组ID
+	RoleName    string `json:"roleName"`    // 身份组名称
+	RoleColor   string `json:"roleColor"`   // 身份组颜色，例：#ffffff
+	Position    int    `json:"position"`    // 身份组排序位置
+	Permission  string `json:"permission"`  // 身份组权限值，16进制
+	MemberCount int    `json:"memberCount"` // 身份组成员数
 }
 
 type (

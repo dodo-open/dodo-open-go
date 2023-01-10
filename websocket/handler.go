@@ -7,6 +7,7 @@ type MessageHandlers struct {
 	MessageReaction         MessageReactionEventHandler
 	MemberJoin              MemberJoinEventHandler
 	MemberLeave             MemberLeaveEventHandler
+	MemberInvite            MemberInviteEventHandler
 	ChannelVoiceMemberJoin  ChannelVoiceMemberJoinHandler
 	ChannelVoiceMemberLeave ChannelVoiceMemberLeaveHandler
 	ChannelArticle          ChannelArticleHandler
@@ -23,6 +24,7 @@ var DefaultHandlers = &MessageHandlers{
 	MessageReaction:         func(event *WSEventMessage, data *MessageReactionEventBody) error { return nil },
 	MemberJoin:              func(event *WSEventMessage, data *MemberJoinEventBody) error { return nil },
 	MemberLeave:             func(event *WSEventMessage, data *MemberLeaveEventBody) error { return nil },
+	MemberInvite:            func(event *WSEventMessage, data *MemberInviteEventBody) error { return nil },
 	ChannelVoiceMemberJoin:  func(event *WSEventMessage, data *ChannelVoiceMemberJoinEventBody) error { return nil },
 	ChannelVoiceMemberLeave: func(event *WSEventMessage, data *ChannelVoiceMemberLeaveEventBody) error { return nil },
 	ChannelArticle:          func(event *WSEventMessage, data *ChannelArticleEventBody) error { return nil },
@@ -47,6 +49,9 @@ func fillHandler(handlers *MessageHandlers) *MessageHandlers {
 	}
 	if handlers.MemberLeave == nil {
 		handlers.MemberLeave = DefaultHandlers.MemberLeave
+	}
+	if handlers.MemberInvite == nil {
+		handlers.MemberInvite = DefaultHandlers.MemberInvite
 	}
 	if handlers.ChannelVoiceMemberJoin == nil {
 		handlers.ChannelVoiceMemberJoin = DefaultHandlers.ChannelVoiceMemberJoin
@@ -87,6 +92,9 @@ type MemberJoinEventHandler func(event *WSEventMessage, data *MemberJoinEventBod
 // MemberLeaveEventHandler 成员退出事件 handler
 type MemberLeaveEventHandler func(event *WSEventMessage, data *MemberLeaveEventBody) error
 
+// MemberInviteEventHandler 成员邀请事件 handler
+type MemberInviteEventHandler func(event *WSEventMessage, data *MemberInviteEventBody) error
+
 // ChannelVoiceMemberJoinHandler  成员加入语音频道事件
 type ChannelVoiceMemberJoinHandler func(event *WSEventMessage, data *ChannelVoiceMemberJoinEventBody) error
 
@@ -122,6 +130,8 @@ func RegisterHandlers(handlers ...interface{}) {
 			DefaultHandlers.MemberJoin = handle
 		case MemberLeaveEventHandler:
 			DefaultHandlers.MemberLeave = handle
+		case MemberInviteEventHandler:
+			DefaultHandlers.MemberInvite = handle
 		case ChannelVoiceMemberJoinHandler:
 			DefaultHandlers.ChannelVoiceMemberJoin = handle
 		case ChannelVoiceMemberLeaveHandler:

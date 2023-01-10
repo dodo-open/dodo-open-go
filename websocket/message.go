@@ -62,11 +62,12 @@ type (
 type (
 	// PersonalMessageEventBody 个人消息事件
 	PersonalMessageEventBody struct {
-		DodoSourceId string              `json:"dodoSourceId"` // 来源DoDoID
-		Personal     *PersonalModel      `json:"personal"`     // 个人信息
-		MessageId    string              `json:"messageId"`    // 消息ID
-		MessageType  model.MessageType   `json:"messageType"`  // 消息类型，1：文本消息，2：图片消息，3：视频消息
-		MessageBody  jsoniter.RawMessage `json:"messageBody"`  // 消息内容（model.IMessageBody）
+		IslandSourceId string              `json:"islandSourceId"` // 来源群ID
+		DodoSourceId   string              `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel      `json:"personal"`       // 个人信息
+		MessageId      string              `json:"messageId"`      // 消息ID
+		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息
+		MessageBody    jsoniter.RawMessage `json:"messageBody"`    // 消息内容（model.IMessageBody）
 	}
 
 	// ChannelMessageEventBody 频道消息事件
@@ -107,6 +108,15 @@ type (
 		LeaveType           int            `json:"leaveType"`           // 退出类型，1：主动，2：被踢
 		OperateDodoSourceId string         `json:"operateDodoSourceId"` // 操作者DoDoID（执行踢出操作的人）
 		ModifyTime          string         `json:"modifyTime"`          // 变动时间
+	}
+
+	// MemberInviteEventBody 成员邀请事件
+	MemberInviteEventBody struct {
+		IslandSourceId       string `json:"islandSourceId"`       // 来源群id
+		DodoSourceId         string `json:"dodoSourceId"`         // 来源DoDoID
+		DodoIslandNickName   string `json:"dodoIslandNickName"`   // 邀请人群昵称
+		ToDodoSourceId       string `json:"toDodoSourceId"`       // 被邀请人DoDoID
+		ToDodoIslandNickName string `json:"toDodoIslandNickName"` // 被邀请人群昵称
 	}
 
 	// ChannelVoiceMemberJoinEventBody 成员加入语音频道事件
@@ -199,6 +209,10 @@ func (e *MemberLeaveEventBody) EventType() EventType {
 	return MemberLeaveEvent
 }
 
+func (e *MemberInviteEventBody) EventType() EventType {
+	return MemberInviteEvent
+}
+
 func (e *ChannelVoiceMemberJoinEventBody) EventType() EventType {
 	return ChannelVoiceMemberJoinEvent
 }
@@ -214,6 +228,7 @@ func (e *ChannelArticleEventBody) EventType() EventType {
 func (e *ChannelArticleCommentEventBody) EventType() EventType {
 	return ChannelArticleCommentEvent
 }
+
 func (e *GiftSendEventBody) EventType() EventType {
 	return GiftSendEvent
 }

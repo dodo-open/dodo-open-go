@@ -11,6 +11,7 @@ const (
 	MessageReactionEvent         EventType = "3001" // 消息反应事件
 	MemberJoinEvent              EventType = "4001" // 成员加入事件
 	MemberLeaveEvent             EventType = "4002" // 成员退出事件
+	MemberInviteEvent            EventType = "4003" // 成员退出事件
 	ChannelVoiceMemberJoinEvent  EventType = "5001" // 成员加入语音频道事件
 	ChannelVoiceMemberLeaveEvent EventType = "5002" // 成员退出语音频道事件
 	ChannelArticleEvent          EventType = "6001" // 帖子发布事件
@@ -25,6 +26,7 @@ var eventParserMap = map[EventType]eventParser{
 	MessageReactionEvent:         messageReactionHandler,
 	MemberJoinEvent:              memberJoinHandler,
 	MemberLeaveEvent:             memberLeaveHandler,
+	MemberInviteEvent:            memberInviteHandler,
 	ChannelVoiceMemberJoinEvent:  channelVoiceMemberJoinHandler,
 	ChannelVoiceMemberLeaveEvent: channelVoiceMemberLeaveHandler,
 	ChannelArticleEvent:          channelArticleHandler,
@@ -124,6 +126,20 @@ func memberLeaveHandler(c *client, event *WSEventMessage, message []byte) error 
 	}
 	if DefaultHandlers.MemberLeave != nil {
 		return DefaultHandlers.MemberLeave(event, data)
+	}
+	return nil
+}
+
+func memberInviteHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &MemberInviteEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.MemberInvite != nil {
+		return c.conf.messageHandlers.MemberInvite(event, data)
+	}
+	if DefaultHandlers.MemberInvite != nil {
+		return DefaultHandlers.MemberInvite(event, data)
 	}
 	return nil
 }
