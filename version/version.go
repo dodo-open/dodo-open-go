@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	version = "0.0.1"
+	version = "0.1.9"
 	name    = "DoDoOpenGo"
 )
 

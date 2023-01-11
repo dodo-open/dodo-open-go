@@ -6,20 +6,32 @@ import "github.com/dodo-open/dodo-open-go/tools"
 type EventType string
 
 const (
-	PersonalMessageEvent EventType = "1001" // 个人消息事件
-	ChannelMessageEvent  EventType = "2001" // 频道消息事件
-	MessageReactionEvent EventType = "3001" // 消息反应事件
-	MemberJoinEvent      EventType = "4001" // 成员加入事件
-	MemberLeaveEvent     EventType = "4002" // 成员退出事件
+	PersonalMessageEvent         EventType = "1001" // 个人消息事件
+	ChannelMessageEvent          EventType = "2001" // 频道消息事件
+	MessageReactionEvent         EventType = "3001" // 消息反应事件
+	MemberJoinEvent              EventType = "4001" // 成员加入事件
+	MemberLeaveEvent             EventType = "4002" // 成员退出事件
+	MemberInviteEvent            EventType = "4003" // 成员退出事件
+	ChannelVoiceMemberJoinEvent  EventType = "5001" // 成员加入语音频道事件
+	ChannelVoiceMemberLeaveEvent EventType = "5002" // 成员退出语音频道事件
+	ChannelArticleEvent          EventType = "6001" // 帖子发布事件
+	ChannelArticleCommentEvent   EventType = "6002" // 帖子评论回复事件
+	GiftSendEvent                EventType = "7001" // 赠礼成功事件
 )
 
 // eventParserMap event parser map, for safety, do not modify this map
 var eventParserMap = map[EventType]eventParser{
-	PersonalMessageEvent: personalMessageHandler,
-	ChannelMessageEvent:  channelMessageHandler,
-	MessageReactionEvent: messageReactionHandler,
-	MemberJoinEvent:      memberJoinHandler,
-	MemberLeaveEvent:     memberLeaveHandler,
+	PersonalMessageEvent:         personalMessageHandler,
+	ChannelMessageEvent:          channelMessageHandler,
+	MessageReactionEvent:         messageReactionHandler,
+	MemberJoinEvent:              memberJoinHandler,
+	MemberLeaveEvent:             memberLeaveHandler,
+	MemberInviteEvent:            memberInviteHandler,
+	ChannelVoiceMemberJoinEvent:  channelVoiceMemberJoinHandler,
+	ChannelVoiceMemberLeaveEvent: channelVoiceMemberLeaveHandler,
+	ChannelArticleEvent:          channelArticleHandler,
+	ChannelArticleCommentEvent:   channelArticleCommentHandler,
+	GiftSendEvent:                giftSendHandler,
 }
 
 // ParseDataAndHandle parse message data and handle it
@@ -114,6 +126,90 @@ func memberLeaveHandler(c *client, event *WSEventMessage, message []byte) error 
 	}
 	if DefaultHandlers.MemberLeave != nil {
 		return DefaultHandlers.MemberLeave(event, data)
+	}
+	return nil
+}
+
+func memberInviteHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &MemberInviteEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.MemberInvite != nil {
+		return c.conf.messageHandlers.MemberInvite(event, data)
+	}
+	if DefaultHandlers.MemberInvite != nil {
+		return DefaultHandlers.MemberInvite(event, data)
+	}
+	return nil
+}
+
+func channelVoiceMemberJoinHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelVoiceMemberJoinEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelVoiceMemberJoin != nil {
+		return c.conf.messageHandlers.ChannelVoiceMemberJoin(event, data)
+	}
+	if DefaultHandlers.ChannelVoiceMemberJoin != nil {
+		return DefaultHandlers.ChannelVoiceMemberJoin(event, data)
+	}
+	return nil
+}
+
+func channelVoiceMemberLeaveHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelVoiceMemberLeaveEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelVoiceMemberLeave != nil {
+		return c.conf.messageHandlers.ChannelVoiceMemberLeave(event, data)
+	}
+	if DefaultHandlers.ChannelVoiceMemberLeave != nil {
+		return DefaultHandlers.ChannelVoiceMemberLeave(event, data)
+	}
+	return nil
+}
+
+func channelArticleHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelArticleEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelArticle != nil {
+		return c.conf.messageHandlers.ChannelArticle(event, data)
+	}
+	if DefaultHandlers.ChannelArticle != nil {
+		return DefaultHandlers.ChannelArticle(event, data)
+	}
+	return nil
+}
+
+func channelArticleCommentHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &ChannelArticleCommentEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.ChannelArticleComment != nil {
+		return c.conf.messageHandlers.ChannelArticleComment(event, data)
+	}
+	if DefaultHandlers.ChannelArticleComment != nil {
+		return DefaultHandlers.ChannelArticleComment(event, data)
+	}
+	return nil
+}
+
+func giftSendHandler(c *client, event *WSEventMessage, message []byte) error {
+	data := &GiftSendEventBody{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if c.conf.messageHandlers.GiftSend != nil {
+		return c.conf.messageHandlers.GiftSend(event, data)
+	}
+	if DefaultHandlers.GiftSend != nil {
+		return DefaultHandlers.GiftSend(event, data)
 	}
 	return nil
 }

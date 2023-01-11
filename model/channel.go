@@ -213,3 +213,81 @@ func (p *RemChannelMessageReactionReq) ValidParams() error {
 	}
 	return nil
 }
+
+// SetChannelMessageTopReq 置顶消息
+// [https://open.imdodo.com/dev/api/channel-text.html#%E7%BD%AE%E9%A1%B6%E6%B6%88%E6%81%AF]
+type SetChannelMessageTopReq struct {
+	MessageId   string `json:"messageId"`
+	OperateType int    `json:"operateType"`
+}
+
+func (p *SetChannelMessageTopReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	if p.OperateType != 0 && p.OperateType != 1 {
+		return errors.New("invalid parameter operateType (empty detected)")
+	}
+	return nil
+}
+
+// GetChannelMessageReactionListReq 获取消息反应列表
+// [https://open.imdodo.com/dev/api/channel-text.html#%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%E5%8F%8D%E5%BA%94%E5%88%97%E8%A1%A8]
+type GetChannelMessageReactionListReq struct {
+	MessageId string `json:"messageId"`
+}
+
+func (p *GetChannelMessageReactionListReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	return nil
+}
+
+// GetChannelMessageReactionListRsp 获取消息反应列表
+// [https://open.imdodo.com/dev/api/channel-text.html#%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%E5%8F%8D%E5%BA%94%E5%88%97%E8%A1%A8]
+type GetChannelMessageReactionListRsp struct {
+	Count int `json:"count"`
+	Emoji struct {
+		Id   string `json:"id"`
+		Type int    `json:"type"`
+	} `json:"emoji"`
+}
+
+// GetChannelMessageReactionMemberListReq 获取消息反应内成员列表
+// [https://open.imdodo.com/dev/api/channel-text.html#%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%E5%8F%8D%E5%BA%94%E5%86%85%E6%88%90%E5%91%98%E5%88%97%E8%A1%A8]
+type GetChannelMessageReactionMemberListReq struct {
+	MessageId string `json:"messageId"`
+	Emoji     struct {
+		Type int    `json:"type"`
+		Id   string `json:"id"`
+	} `json:"emoji"`
+	PageSize int `json:"pageSize"`
+	MaxId    int `json:"maxId"`
+}
+
+func (p *GetChannelMessageReactionMemberListReq) ValidParams() error {
+	if p.MessageId == "" {
+		return errors.New("invalid parameter MessageId (empty detected)")
+	}
+	if p.Emoji.Id == "" {
+		return errors.New("invalid parameter Emoji.Id (empty detected)")
+	}
+	if p.PageSize <= 0 || p.PageSize > 100 {
+		return errors.New("invalid parameter PageSize (0 < PageSize <= 100)")
+	}
+	if p.MaxId < 0 {
+		return errors.New("invalid parameter maxId")
+	}
+	return nil
+}
+
+// GetChannelMessageReactionMemberListRsp 获取消息反应内成员列表
+// [https://open.imdodo.com/dev/api/channel-text.html#%E8%8E%B7%E5%8F%96%E6%B6%88%E6%81%AF%E5%8F%8D%E5%BA%94%E5%86%85%E6%88%90%E5%91%98%E5%88%97%E8%A1%A8]
+type GetChannelMessageReactionMemberListRsp struct {
+	List []struct {
+		DodoSourceId string `json:"dodoSourceId"`
+		NickName     string `json:"nickName"`
+	} `json:"list"`
+	MaxId int `json:"maxId"`
+}

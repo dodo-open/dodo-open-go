@@ -62,11 +62,12 @@ type (
 type (
 	// PersonalMessageEventBody 个人消息事件
 	PersonalMessageEventBody struct {
-		DodoSourceId string              `json:"dodoSourceId"` // 来源DoDoID
-		Personal     *PersonalModel      `json:"personal"`     // 个人信息
-		MessageId    string              `json:"messageId"`    // 消息ID
-		MessageType  model.MessageType   `json:"messageType"`  // 消息类型，1：文本消息，2：图片消息，3：视频消息
-		MessageBody  jsoniter.RawMessage `json:"messageBody"`  // 消息内容（model.IMessageBody）
+		IslandSourceId string              `json:"islandSourceId"` // 来源群ID
+		DodoSourceId   string              `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel      `json:"personal"`       // 个人信息
+		MessageId      string              `json:"messageId"`      // 消息ID
+		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息
+		MessageBody    jsoniter.RawMessage `json:"messageBody"`    // 消息内容（model.IMessageBody）
 	}
 
 	// ChannelMessageEventBody 频道消息事件
@@ -78,7 +79,7 @@ type (
 		Member         *MemberModel        `json:"member"`         // 成员信息
 		Reference      *ReferenceModel     `json:"reference"`      // 回复信息
 		MessageId      string              `json:"messageId"`      // 消息ID
-		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
+		MessageType    model.MessageType   `json:"messageType"`    // 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息 6:卡片消息
 		MessageBody    jsoniter.RawMessage `json:"messageBody"`    // 消息内容（model.IMessageBody）
 	}
 
@@ -108,6 +109,84 @@ type (
 		OperateDodoSourceId string         `json:"operateDodoSourceId"` // 操作者DoDoID（执行踢出操作的人）
 		ModifyTime          string         `json:"modifyTime"`          // 变动时间
 	}
+
+	// MemberInviteEventBody 成员邀请事件
+	MemberInviteEventBody struct {
+		IslandSourceId       string `json:"islandSourceId"`       // 来源群id
+		DodoSourceId         string `json:"dodoSourceId"`         // 来源DoDoID
+		DodoIslandNickName   string `json:"dodoIslandNickName"`   // 邀请人群昵称
+		ToDodoSourceId       string `json:"toDodoSourceId"`       // 被邀请人DoDoID
+		ToDodoIslandNickName string `json:"toDodoIslandNickName"` // 被邀请人群昵称
+	}
+
+	// ChannelVoiceMemberJoinEventBody 成员加入语音频道事件
+	ChannelVoiceMemberJoinEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+	}
+
+	// ChannelVoiceMemberLeaveEventBody 成员退出语音频道事件
+	ChannelVoiceMemberLeaveEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+	}
+
+	// ChannelArticleEventBody 帖子发布事件
+	ChannelArticleEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+		ArticleId      string         `json:"articleId"`      // 帖子ID
+		Title          string         `json:"title"`          // 标题
+		ImageList      []string       `json:"imageList"`      // 图片列表
+		Content        string         `json:"content"`        // 文本内容，支持 菱形语法内容的接收
+	}
+
+	// ChannelArticleCommentEventBody 帖子评论回复事件
+	ChannelArticleCommentEventBody struct {
+		IslandSourceId string         `json:"islandSourceId"` // 来源群ID
+		ChannelId      string         `json:"channelId"`      // 来源语音频道ID
+		DodoSourceId   string         `json:"dodoSourceId"`   // 来源DoDoID
+		Personal       *PersonalModel `json:"personal"`       // 个人信息
+		Member         *MemberModel   `json:"member"`         // 成员信息
+		ArticleId      string         `json:"articleId"`      // 帖子ID
+		CommentId      string         `json:"commentId"`      // 帖子评论ID
+		ReplyId        string         `json:"replyId"`        // 帖子评论回复ID，为空时：为评论事件，不为空时：为评论回复事件
+		ImageList      []string       `json:"imageList"`      // 图片列表
+		Content        string         `json:"content"`        // 文本内容，支持 菱形语法内容的接收
+	}
+
+	// GiftSendEventBody 赠礼成功事件
+	// [https://open.imdodo.com/dev/event/gift.html#%E8%B5%A0%E7%A4%BC%E6%88%90%E5%8A%9F%E4%BA%8B%E4%BB%B6]
+	GiftSendEventBody struct {
+		IslandSourceId string `json:"islandSourceId"`
+		ChannelId      string `json:"channelId"`
+		OrderNo        string `json:"orderNo"`
+		TargetType     int    `json:"targetType"`
+		TargetId       string `json:"targetId"`
+		Gift           struct {
+			Id    string `json:"id"`
+			Name  string `json:"name"`
+			Count int    `json:"count"`
+		} `json:"gift"`
+		TotalAmount          float64 `json:"totalAmount"`
+		IslandRatio          float64 `json:"islandRatio"`
+		IslandIncome         float64 `json:"islandIncome"`
+		DodoSourceId         string  `json:"dodoSourceId"`
+		DodoIslandNickName   string  `json:"dodoIslandNickName"`
+		ToDodoSourceId       string  `json:"toDodoSourceId"`
+		ToDodoIslandNickName string  `json:"toDodoIslandNickName"`
+		ToDodoRatio          float64 `json:"toDodoRatio"`
+		ToDodoIncome         float64 `json:"toDodoIncome"`
+	}
 )
 
 func (e *PersonalMessageEventBody) EventType() EventType {
@@ -128,4 +207,28 @@ func (e *MemberJoinEventBody) EventType() EventType {
 
 func (e *MemberLeaveEventBody) EventType() EventType {
 	return MemberLeaveEvent
+}
+
+func (e *MemberInviteEventBody) EventType() EventType {
+	return MemberInviteEvent
+}
+
+func (e *ChannelVoiceMemberJoinEventBody) EventType() EventType {
+	return ChannelVoiceMemberJoinEvent
+}
+
+func (e *ChannelVoiceMemberLeaveEventBody) EventType() EventType {
+	return ChannelVoiceMemberLeaveEvent
+}
+
+func (e *ChannelArticleEventBody) EventType() EventType {
+	return ChannelArticleEvent
+}
+
+func (e *ChannelArticleCommentEventBody) EventType() EventType {
+	return ChannelArticleCommentEvent
+}
+
+func (e *GiftSendEventBody) EventType() EventType {
+	return GiftSendEvent
 }

@@ -16,11 +16,12 @@ func (p *GetRoleListReq) ValidParams() error {
 
 // RoleElement 身份组数据对象 list element
 type RoleElement struct {
-	RoleId     string `json:"roleId"`     // 身份组ID
-	RoleName   string `json:"roleName"`   // 身份组名称
-	RoleColor  string `json:"roleColor"`  // 身份组颜色，例：#ffffff
-	Position   int    `json:"position"`   // 身份组排序位置
-	Permission string `json:"permission"` // 身份组权限值，16进制
+	RoleId      string `json:"roleId"`      // 身份组ID
+	RoleName    string `json:"roleName"`    // 身份组名称
+	RoleColor   string `json:"roleColor"`   // 身份组颜色，例：#ffffff
+	Position    int    `json:"position"`    // 身份组排序位置
+	Permission  string `json:"permission"`  // 身份组权限值，16进制
+	MemberCount int    `json:"memberCount"` // 身份组成员数
 }
 
 type (
@@ -120,4 +121,39 @@ func (p *RemoveRoleMemberReq) ValidParams() error {
 		return errors.New("invalid parameter RoleId (empty detected)")
 	}
 	return nil
+}
+
+// GetRoleMemberListReq 获取身份组成员列表 请求
+// [https://open.imdodo.com/dev/api/role.html#%E8%8E%B7%E5%8F%96%E8%BA%AB%E4%BB%BD%E7%BB%84%E6%88%90%E5%91%98%E5%88%97%E8%A1%A8]
+type GetRoleMemberListReq struct {
+	IslandSourceId string `json:"islandSourceId"`
+	RoleId         string `json:"roleId"`
+	PageSize       int    `json:"pageSize"`
+	MaxId          int    `json:"maxId"`
+}
+
+func (p *GetRoleMemberListReq) ValidParams() error {
+	if p.IslandSourceId == "" {
+		return errors.New("invalid parameter islandSourceId (empty detected)")
+	}
+	if p.RoleId == "" {
+		return errors.New("invalid parameter roleId (empty detected)")
+	}
+	if p.PageSize <= 0 || p.PageSize > 100 {
+		return errors.New("invalid parameter PageSize (0 < PageSize <= 100)")
+	}
+	if p.MaxId < 0 {
+		return errors.New("invalid parameter maxId")
+	}
+	return nil
+}
+
+// GetRoleMemberListRsp 获取身份组成员列表 响应
+// [https://open.imdodo.com/dev/api/role.html#%E8%8E%B7%E5%8F%96%E8%BA%AB%E4%BB%BD%E7%BB%84%E6%88%90%E5%91%98%E5%88%97%E8%A1%A8]
+type GetRoleMemberListRsp struct {
+	List []struct {
+		DodoSourceId string `json:"dodoSourceId"`
+		NickName     string `json:"nickName"`
+	} `json:"list"`
+	MaxId int `json:"maxId"`
 }

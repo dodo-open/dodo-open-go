@@ -38,3 +38,56 @@ func (c *client) SetBotIslandLeave(ctx context.Context, req *model.SetBotLeaveIs
 	}
 	return true, nil
 }
+
+// GetBotInviteList 获取机器人邀请列表
+func (c *client) GetBotInviteList(ctx context.Context, req *model.GetBotInviteListReq) (*model.GetBotInviteListRsp, error) {
+	if err := req.ValidParams(); err != nil {
+		return nil, err
+	}
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(getBotInviteListUri))
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.GetBotInviteListRsp{}
+	if err = tools.JSON.Unmarshal(c.unmarshalResult(resp).Data, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// SetBotInviteAdd 添加成员到机器人邀请列表
+func (c *client) SetBotInviteAdd(ctx context.Context, req *model.SetBotInviteAddReq) (bool, error) {
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(setBotInviteAddUri))
+	if err != nil {
+		return false, err
+	}
+
+	result := c.unmarshalResult(resp)
+	if result.Status != 0 {
+		return false, errs.New(result.Status, result.Message)
+	}
+	return true, nil
+}
+
+// SetBotInviteRemove 移除成员出机器人邀请列表
+func (c *client) SetBotInviteRemove(ctx context.Context, req *model.SetBotInviteRemoveReq) (bool, error) {
+	if err := req.ValidParams(); err != nil {
+		return false, err
+	}
+
+	resp, err := c.request(ctx).SetBody(req).Post(c.getApi(setBotInviteRemoveUri))
+	if err != nil {
+		return false, err
+	}
+
+	result := c.unmarshalResult(resp)
+	if result.Status != 0 {
+		return false, errs.New(result.Status, result.Message)
+	}
+	return true, nil
+}
