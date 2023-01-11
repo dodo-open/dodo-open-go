@@ -73,11 +73,14 @@ type (
 
 	// MessageAPI message API interface
 	MessageAPI interface {
-		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error) // SendChannelMessage 发送消息
-		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error) // EditChannelMessage 编辑消息
-		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)                 // WithdrawChannelMessage 撤回消息
-		AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error)           // AddChannelMessageReaction 添加表情反应
-		RemChannelMessageReaction(ctx context.Context, req *model.RemChannelMessageReactionReq) (bool, error)           // RemChannelMessageReaction 取消表情反应
+		SendChannelMessage(ctx context.Context, req *model.SendChannelMessageReq) (*model.SendChannelMessageRsp, error)                                                    // SendChannelMessage 发送消息
+		EditChannelMessage(ctx context.Context, req *model.EditChannelMessageReq) (*model.EditChannelMessageRsp, error)                                                    // EditChannelMessage 编辑消息
+		WithdrawChannelMessage(ctx context.Context, req *model.WithdrawChannelMessageReq) (bool, error)                                                                    // WithdrawChannelMessage 撤回消息
+		AddChannelMessageReaction(ctx context.Context, req *model.AddChannelMessageReactionReq) (bool, error)                                                              // AddChannelMessageReaction 添加表情反应
+		RemChannelMessageReaction(ctx context.Context, req *model.RemChannelMessageReactionReq) (bool, error)                                                              // RemChannelMessageReaction 取消表情反应
+		SetChannelMessageTop(ctx context.Context, req *model.SetChannelMessageTopReq) (bool, error)                                                                        // SetChannelMessageTop 置顶消息
+		GetChannelMessageReactionList(ctx context.Context, req *model.GetChannelMessageReactionListReq) ([]*model.GetChannelMessageReactionListRsp, error)                 // GetChannelMessageReactionList 获取消息反应列表
+		GetChannelMessageReactionMemberList(ctx context.Context, req *model.GetChannelMessageReactionMemberListReq) (*model.GetChannelMessageReactionMemberListRsp, error) // GetChannelMessageReactionMemberList 获取消息反应内成员列表
 	}
 
 	// RoleAPI role API interface

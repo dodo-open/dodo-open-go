@@ -27,11 +27,14 @@ const (
 	removeChannelUri  uri = "/api/v2/channel/remove" // 删除频道
 
 	// 文字频道 API
-	sendChannelMessageUri     uri = "/api/v2/channel/message/send"            // 发送消息
-	editChannelMessageUri     uri = "/api/v2/channel/message/edit"            // 编辑消息
-	withdrawChannelMessageUri uri = "/api/v2/channel/message/withdraw"        // 撤回消息
-	addChannelMessageReaction uri = "/api/v2/channel/message/reaction/add"    // 添加表情反应
-	remChannelMessageReaction uri = "/api/v2/channel/message/reaction/remove" // 取消表情反应
+	sendChannelMessageUri                  uri = "/api/v2/channel/message/send"                 // 发送消息
+	editChannelMessageUri                  uri = "/api/v2/channel/message/edit"                 // 编辑消息
+	withdrawChannelMessageUri              uri = "/api/v2/channel/message/withdraw"             // 撤回消息
+	addChannelMessageReaction              uri = "/api/v2/channel/message/reaction/add"         // 添加表情反应
+	remChannelMessageReaction              uri = "/api/v2/channel/message/reaction/remove"      // 取消表情反应
+	setChannelMessageTopUri                uri = "/api/v2/channel/message/top"                  // 置顶消息
+	getChannelMessageReactionListUri       uri = "/api/v2/channel/message/reaction/list"        // 获取消息反应列表
+	getChannelMessageReactionMemberListUri uri = "/api/v2/channel/message/reaction/member/list" // 获取消息反应内成员列表
 
 	// 语音频道 API
 	getChannelVoiceMemberStatusUri uri = "/api/v2/channel/voice/member/status" // 获取成员语音频道状态
